@@ -1,0 +1,49 @@
+# Build output
+build/
+*.o
+*.elf
+*.bin
+*.hex
+*.map
+*.su
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*.sublime-project
+*.sublime-workspace
+
+# CubeIDE / CubeMX
+.cproject
+.project
+.settings/
+STM32Make.make
+
+# Keil MDK
+*.uvgui
+*.uvguix
+*.bak
+*.dep
+
+# IAR
+settings/
+*.xcl
+*.pbd
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs
+*.log
+
+# Compiled Python
+__pycache__/
+*.pyc
+
+# Archives (skills distributed as folders, not zips)
+*.zip
+*.tar.gz
