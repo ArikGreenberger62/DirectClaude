@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(C:/CCoreAI/DirectClaude/projects/04-gsensor/**)",
+      "Write(C:/CCoreAI/DirectClaude/projects/04-gsensor/**)",
+      "Edit(C:/CCoreAI/DirectClaude/projects/04-gsensor/**)",
+      "Bash(mkdir:*)",
+      "Bash(rm:*)",
+      "Bash(mv:*)",
+      "Bash(cp:*)"
+    ]
+  }
+}
