@@ -3,7 +3,17 @@
     "allow": [
       "Bash(\"C:\\\\Users\\\\arikg\\\\AppData\\\\Local\\\\stm32cube\\\\bundles\\\\cmake\\\\4.0.1+st.3\\\\bin\\\\cmake.exe\" --preset Debug)",
       "Bash(\"C:\\\\Users\\\\arikg\\\\AppData\\\\Local\\\\stm32cube\\\\bundles\\\\cmake\\\\4.0.1+st.3\\\\bin\\\\cmake.exe\" --build --preset Debug)",
-      "Bash(C:\\\\Users\\\\arikg\\\\AppData\\\\Local\\\\stm32cube\\\\bundles\\\\programmer\\\\2.22.0+st.1\\\\bin\\\\STM32_Programmer_CLI.exe:*)"
+      "Bash(C:\\\\Users\\\\arikg\\\\AppData\\\\Local\\\\stm32cube\\\\bundles\\\\programmer\\\\2.22.0+st.1\\\\bin\\\\STM32_Programmer_CLI.exe:*)",
+      "Bash(grep -E \"\\\\.\\(h|c\\)$\")",
+      "Bash(grep -E \"\\\\.\\(c|h|s|ld\\)$\")",
+      "Bash(grep -E \"\\\\.\\(c|h|txt\\)$\")",
+      "Bash(\"C:/Users/arikg/AppData/Local/stm32cube/bundles/cmake/4.0.1+st.3/bin/cmake.exe\" --preset Debug)",
+      "Bash(\"C:/Users/arikg/AppData/Local/stm32cube/bundles/cmake/4.0.1+st.3/bin/cmake.exe\" --build --preset Debug)",
+      "Bash(\"C:/Users/arikg/AppData/Local/stm32cube/bundles/programmer/2.22.0+st.1/bin/STM32_Programmer_CLI.exe\" -l st)",
+      "Bash(\"C:/Users/arikg/AppData/Local/stm32cube/bundles/programmer/2.22.0+st.1/bin/STM32_Programmer_CLI.exe\" -c port=SWD freq=4000 -w \"C:/CCoreAI/DirectClaude/DirectClaude/projects/05-psram/build/Debug/psram.elf\" -rst)",
+      "Bash(python -c ':*)",
+      "Bash(\"C:/Users/arikg/AppData/Local/stm32cube/bundles/programmer/2.22.0+st.1/bin/STM32_Programmer_CLI.exe\" -c port=SWD freq=4000 -w \"C:/CCoreAI/DirectClaude/DirectClaude/projects/05-psram/build/Debug/05-psram.elf\" -rst)",
+      "Bash(ls \"C:/CCoreAI/DirectClaude/DirectClaude/projects/05-psram/build/Debug/\"*.elf)"
     ]
   }
 }
