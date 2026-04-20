@@ -43,11 +43,17 @@ int main(void)
     if (HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_3) != HAL_OK) { Error_Handler(); }
     if (HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_4) != HAL_OK) { Error_Handler(); }
 
+    /* One-time startup trace — confirms MCU booted and PWM is running */
+    {
+        static const char msg[] = "[BLINK] 01-blink started -- LED_R/LED_G alternating at 1 Hz\r\n";
+        HAL_UART_Transmit(&huart1, (uint8_t *)msg, (uint16_t)(sizeof(msg) - 1U), 100);
+    }
+
     /* Run startup self-test after all peripherals are running.
      * Self-test will halt on failure — it never returns in that case. */
     SelfTest_Run();
 
-    /* Main loop — nothing to do, PWM runs in hardware */
+    /* Main loop — PWM runs entirely in hardware, nothing for CPU to do */
     while (1)
     {
     }
@@ -143,7 +149,8 @@ static void MX_TIM3_Init(void)
     sConfigOC.OCFastMode   = TIM_OCFAST_DISABLE;
     if (HAL_TIM_PWM_ConfigChannel(&htim3, &sConfigOC, TIM_CHANNEL_3) != HAL_OK) { Error_Handler(); }
 
-    /* CH4 → LED_G: 50% duty, active high (same phase as LED_R) */
+    /* CH4 → LED_G: 50% duty, inverted polarity — alternates with LED_R */
+    sConfigOC.OCPolarity = TIM_OCPOLARITY_LOW;
     if (HAL_TIM_PWM_ConfigChannel(&htim3, &sConfigOC, TIM_CHANNEL_4) != HAL_OK) { Error_Handler(); }
 }
 
