@@ -13,7 +13,19 @@
       "Bash(\"C:/Users/arikg/AppData/Local/stm32cube/bundles/programmer/2.22.0+st.1/bin/STM32_Programmer_CLI.exe\" -c port=SWD freq=4000 -w \"C:/CCoreAI/DirectClaude/DirectClaude/projects/05-psram/build/Debug/psram.elf\" -rst)",
       "Bash(python -c ':*)",
       "Bash(\"C:/Users/arikg/AppData/Local/stm32cube/bundles/programmer/2.22.0+st.1/bin/STM32_Programmer_CLI.exe\" -c port=SWD freq=4000 -w \"C:/CCoreAI/DirectClaude/DirectClaude/projects/05-psram/build/Debug/05-psram.elf\" -rst)",
-      "Bash(ls \"C:/CCoreAI/DirectClaude/DirectClaude/projects/05-psram/build/Debug/\"*.elf)"
+      "Bash(ls \"C:/CCoreAI/DirectClaude/DirectClaude/projects/05-psram/build/Debug/\"*.elf)",
+      "Bash(\"C:/Users/arikg/AppData/Local/stm32cube/bundles/programmer/2.22.0+st.1/bin/STM32_Programmer_CLI.exe\" -c port=SWD freq=4000 mode=UR -w /c/CCoreAI/DirectClaude/DirectClaude/projects/09-sms-modem/build/Debug/sms_modem.elf -rst)",
+      "Bash(python tools/send_sms_test.py)",
+      "WebSearch",
+      "WebFetch(domain:quectel.com)",
+      "WebFetch(domain:images.quectel.com)",
+      "Bash(where pdftotext *)",
+      "Bash(where mutool *)",
+      "Bash(where pdfinfo *)",
+      "Bash(pdftotext -layout \"C:\\\\Users\\\\arikg\\\\.claude\\\\projects\\\\C--CCoreAI-DirectClaude-DirectClaude\\\\8fab01c5-61ae-4e01-b3d3-8371b5eda87b\\\\tool-results\\\\webfetch-1776708008795-8ts03f.pdf\" /tmp/eg915n_hw.txt)",
+      "Read(//tmp/**)",
+      "Bash(\"C:/Users/arikg/AppData/Local/stm32cube/bundles/programmer/2.22.0+st.1/bin/STM32_Programmer_CLI.exe\" -c port=SWD freq=1000 mode=HOTPLUG -w /c/CCoreAI/DirectClaude/DirectClaude/projects/09-sms-modem/build/Debug/sms_modem.elf -rst)",
+      "Bash(\"C:/Users/arikg/AppData/Local/stm32cube/bundles/programmer/2.22.0+st.1/bin/STM32_Programmer_CLI.exe\" -c port=SWD freq=4000 mode=UR reset=HWrst -w /c/CCoreAI/DirectClaude/DirectClaude/projects/09-sms-modem/build/Debug/sms_modem.elf -rst)"
     ]
   }
 }

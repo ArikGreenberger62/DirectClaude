@@ -160,7 +160,25 @@ def main() -> int:
             return 1
 
     # ── Assemble prompt ────────────────────────────────────────────────────────
-    prompt_text = " ".join(args.prompt)
+    user_request = " ".join(args.prompt)
+
+    # Explicitly enforce the full Autonomous Workflow from CLAUDE.md so that
+    # every stage (build → flash → trace verify → CONTEXT.md update) runs even
+    # when invoked non-interactively via this script.
+    prompt_text = f"""\
+Follow the Autonomous Workflow defined in CLAUDE.md exactly:
+
+1. Read the required skills from the Skill Map for this task (architecture, coding, build, testing).
+2. If the project folder already exists, read its CONTEXT.md first.
+3. Write ALL required files in one pass — do NOT ask for confirmation.
+4. Build loop: compile, fix all errors, repeat until the build is clean.
+5. Flash the firmware to the hardware using the correct flash tool/script.
+6. Verify correct behaviour via serial trace (UART/SWO); do NOT stop until trace confirms success.
+7. Update (or create) the project CONTEXT.md with the final status.
+
+Do NOT stop after the build step. Steps 5 (flash) and 6 (trace verify) are mandatory.
+
+User request: {user_request}"""
 
     # ── Build claude command ───────────────────────────────────────────────────
     output_fmt = "text" if args.no_stream else "stream-json"
@@ -178,7 +196,7 @@ def main() -> int:
 
     print(color(f"\n◆ Workspace : {folder}", BOLD))
     print(color(f"◆ Model     : {args.model}  effort={args.effort}", BOLD))
-    print(color(f"◆ Prompt    : {prompt_text[:120]}{'…' if len(prompt_text)>120 else ''}", BOLD))
+    print(color(f"◆ Prompt    : {user_request[:120]}{'…' if len(user_request)>120 else ''}", BOLD))
     print(color("─" * 60, DIM))
 
     # ── Run ────────────────────────────────────────────────────────────────────
