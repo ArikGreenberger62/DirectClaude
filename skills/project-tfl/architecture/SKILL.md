@@ -1,6 +1,9 @@
 ---
 name: project-tfl/architecture
 description: TFL_CONNECT_2 board-specific architecture. Read when starting a new project in this workspace.
+task_types: [arch, build]
+keywords: [tfl, tfl_connect, project, new, board, structure, h573, ioc, peripheral, lowlevel, layout, checklist]
+priority: tier3
 ---
 
 # TFL_CONNECT_2 — Project Architecture

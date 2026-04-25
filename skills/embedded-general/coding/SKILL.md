@@ -1,6 +1,9 @@
 ---
 name: embedded-general/coding
 description: General embedded C coding best practices. Read when writing any firmware C code.
+task_types: [code, arch]
+keywords: [code, c, firmware, write, function, module, driver, embedded, register, gpio, peripheral, init, isr, interrupt, callback, snprintf, printf, struct, header, stdint, volatile]
+priority: base
 ---
 
 # Embedded C Coding Practices

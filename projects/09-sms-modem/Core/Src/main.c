@@ -237,7 +237,7 @@ static void cmd_rx_arm(void)
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 {
     if (huart->Instance == USART2) {
-        Modem_RxByte(*(volatile uint8_t *)huart->pRxBuffPtr);
+        Modem_RxByte();   /* reads s_rx_byte internally — pRxBuffPtr is stale at callback time */
         /* modem.c re-arms via Modem_RxByte → mdm_rx_arm() */
     } else if (huart->Instance == UART7) {
         RingBuf_Put(&s_cmd_rx, s_cmd_rx_byte);

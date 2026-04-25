@@ -1,6 +1,9 @@
 ---
 name: project-tfl/testing
 description: TFL_CONNECT_2 closed-loop trace testing. Read when verifying firmware on hardware.
+task_types: [test]
+keywords: [tfl, trace, uart7, com7, serial, pyserial, verify, test, hardrst, self_test, closed-loop]
+priority: tier3
 ---
 
 # TFL_CONNECT_2 — Trace Verification

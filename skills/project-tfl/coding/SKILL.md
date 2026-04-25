@@ -1,6 +1,9 @@
 ---
 name: project-tfl/coding
 description: TFL_CONNECT_2 board-specific coding rules and lessons learned. Read when writing code for this workspace.
+task_types: [code]
+keywords: [tfl, trace, uart7, spi, mode3, afcntr, pwm, hal_tim, lessons, mandatory, m1, m2, m3, m4, m7, m8]
+priority: tier3
 ---
 
 # TFL_CONNECT_2 — Coding Rules & Lessons

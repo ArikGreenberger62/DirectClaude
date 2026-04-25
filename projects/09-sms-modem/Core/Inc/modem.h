@@ -46,7 +46,9 @@ ModemState_t Modem_GetState(void);
  * msg   : ASCII text, max 160 chars. */
 int Modem_SendSMS(const char *phone, const char *msg);
 
-/* Called from HAL_UART_RxCpltCallback in main.c when a byte arrives on USART2. */
-void Modem_RxByte(uint8_t byte);
+/* Called from HAL_UART_RxCpltCallback in main.c when a byte arrives on USART2.
+ * Reads s_rx_byte internally (the buffer passed to HAL_UART_Receive_IT).
+ * Do NOT pass pRxBuffPtr — it is already incremented past the byte at callback time. */
+void Modem_RxByte(void);
 
 #endif /* MODEM_H */

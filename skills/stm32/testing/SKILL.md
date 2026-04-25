@@ -1,6 +1,9 @@
 ---
 name: stm32/testing
 description: STM32 flash and debug workflow. Read when flashing firmware or debugging with ST-LINK.
+task_types: [test]
+keywords: [stm32, flash, st-link, stlink, programmer, swd, gdb, gdbserver, debug, hardrst, reset, download, programmer_cli, h573]
+priority: tier2
 ---
 
 # STM32 Flash & Debug

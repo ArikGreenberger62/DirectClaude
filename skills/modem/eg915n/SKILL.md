@@ -1,6 +1,9 @@
 ---
 name: modem/eg915n
 description: Quectel EG915N LTE modem skill — power-on sequence, SMS send/receive, TCP socket AT commands for TFL_CONNECT_2 board.
+task_types: [code, arch, test]
+keywords: [modem, eg915n, eg915, quectel, sms, mc60, gnss, pwrkey, sim, at+, atcommand, tcp, socket, gprs, gsm, lte, cellular, cellnetwork, ppp, +cmt, +cmgs, +cmgr, qiopen, qisend, mdm_, sendsms, sms_modem]
+priority: tier4
 ---
 
 # Quectel EG915N Modem Skill

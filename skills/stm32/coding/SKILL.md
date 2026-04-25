@@ -1,6 +1,9 @@
 ---
 name: stm32/coding
 description: STM32 HAL coding patterns, known bugs, and mandatory rules. Read when writing STM32 firmware code.
+task_types: [code]
+keywords: [stm32, hal, h573, h5xx, spi, uart, usart, tim, pwm, gpio, dma, msp, cpol, cpha, afcntr, prescaler, mode3, hal_spi_init, hal_uart, errno, nano, sqrtf, math, snprintf]
+priority: tier2
 ---
 
 # STM32 Coding Patterns

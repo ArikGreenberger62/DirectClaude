@@ -1,6 +1,9 @@
 ---
 name: stm32/threadx
 description: Azure RTOS ThreadX integration on STM32H573 (Cortex-M33 GNU port). Read when starting or modifying a ThreadX-based project in this workspace.
+task_types: [code, arch, build]
+keywords: [threadx, rtos, azure, thread, tx_, kernel, scheduler, semaphore, mutex, queue, byte_pool, cortex_m33, pendsv, svc, tx_timer, tx_thread, filex]
+priority: tier2
 ---
 
 # STM32H573 + Azure RTOS ThreadX

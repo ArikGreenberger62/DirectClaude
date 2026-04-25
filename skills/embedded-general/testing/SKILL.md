@@ -1,6 +1,9 @@
 ---
 name: embedded-general/testing
 description: General embedded testing strategy. Read when setting up testing for firmware.
+task_types: [test]
+keywords: [test, verify, trace, ctest, mock, unit, host, serial, uart, com, baud, reset, flash, hardware, validate, check]
+priority: base
 ---
 
 # Embedded Firmware Testing

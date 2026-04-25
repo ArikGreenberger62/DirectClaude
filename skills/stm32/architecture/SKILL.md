@@ -1,6 +1,9 @@
 ---
 name: stm32/architecture
 description: STM32 HAL + CubeMX project architecture. Read when designing a new STM32 project structure.
+task_types: [arch, code, build]
+keywords: [stm32, hal, cubemx, lowlevel, project, structure, architecture, msp, peripheral, override, ioc, h573, h5xx]
+priority: tier2
 ---
 
 # STM32 Project Architecture

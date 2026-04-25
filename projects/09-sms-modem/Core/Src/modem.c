@@ -36,6 +36,7 @@
 /* ── Module-private state ──────────────────────────────────────────────────── */
 static RingBuf_t     s_rx;            /* USART2 receive ring buffer               */
 static uint8_t       s_rx_byte;       /* single-byte HAL interrupt receive buffer  */
+static uint32_t      s_rx_count;      /* total bytes received from modem (diag)    */
 
 static ModemState_t  s_state = MODEM_STATE_OFF;
 
@@ -196,6 +197,10 @@ static void mdm_power_on(void)
     trace("[MODEM] MC60_GNSS_PWR = HIGH (VBAT on)\r\n");
     HAL_GPIO_WritePin(MC60_GNSS_PWR_GPIO_Port, MC60_GNSS_PWR_Pin, GPIO_PIN_SET);
 
+    /* Also enable MC60_PWR (PD12) — extra power rail; harmless if not fitted. */
+    trace("[MODEM] MC60_PWR = HIGH\r\n");
+    HAL_GPIO_WritePin(MC60_PWR_GPIO_Port, MC60_PWR_Pin, GPIO_PIN_SET);
+
     /* 4. Wait for VBAT to stabilise (spec ≥30 ms). */
     HAL_Delay(MDM_VBAT_SETTLE_MS);
 
@@ -214,14 +219,68 @@ static void mdm_power_on(void)
     HAL_GPIO_WritePin(MC60_PWRKEY_GPIO_Port, MC60_PWRKEY_Pin, GPIO_PIN_RESET);
 }
 
-/* Wait for boot completion: look for "RDY" or "+CFUN: 1" or "+QIND: SMS DONE". */
+/* Wait for boot completion.
+ *
+ * Strategy:
+ *   1. Watch for boot URCs (RDY / +CFUN: 1) for up to 12 s — if one arrives
+ *      early, skip the fixed wait.
+ *   2. After 12 s (or a URC), send AT and check for OK (modem alive check).
+ *   3. If AT→OK: return 1.
+ *   4. Otherwise keep retrying until MDM_BOOT_TIMEOUT_MS is exhausted.
+ */
 static int mdm_wait_boot(void)
 {
     char     line[MDM_LINE_MAX];
-    uint32_t start = HAL_GetTick();
+    uint32_t start      = HAL_GetTick();
+    uint32_t last_diag  = start;
+    int      got_urc    = 0;
 
-    trace("[MODEM] waiting for boot (RDY / +CFUN: 1)...\r\n");
+    trace("[MODEM] waiting 12 s for modem to boot...\r\n");
 
+    /* Phase 1: watch for boot URCs for up to 12 s.
+     * Print CTS state + RX byte count every 5 s (hardware diagnostic). */
+    while ((HAL_GetTick() - start) < 12000U) {
+        if ((HAL_GetTick() - last_diag) >= 5000U) {
+            last_diag = HAL_GetTick();
+            GPIO_PinState cts = HAL_GPIO_ReadPin(MDM_USART2_CTS_GPIO_Port,
+                                                  MDM_USART2_CTS_Pin);
+            char dbg[96];
+            tracef(dbg, sizeof(dbg),
+                   "[MODEM] diag: CTS=%s rx_bytes=%lu\r\n",
+                   cts == GPIO_PIN_RESET ? "LOW(ok)" : "HIGH(idle)",
+                   (unsigned long)s_rx_count);
+        }
+        if (mdm_getline(line, sizeof(line), 500U, 1)) {
+            char dbg[80];
+            tracef(dbg, sizeof(dbg), "[MODEM] boot URC: %s\r\n", line);
+            if (strcmp(line, "RDY") == 0
+                || strstr(line, "+CFUN: 1") != NULL
+                || strstr(line, "+QIND: SMS DONE") != NULL) {
+                got_urc = 1;
+                break;
+            }
+        }
+    }
+
+    if (got_urc) {
+        trace("[MODEM] boot URC received — checking AT...\r\n");
+    } else {
+        trace("[MODEM] 12 s elapsed — checking modem alive (AT)...\r\n");
+    }
+
+    /* Phase 2: AT liveness check (up to 3 attempts, 1 s each). */
+    for (int attempt = 0; attempt < 3; attempt++) {
+        if (mdm_is_alive()) {
+            trace("[MODEM] AT -> OK: modem is alive\r\n");
+            return 1;
+        }
+        char dbg[48];
+        tracef(dbg, sizeof(dbg), "[MODEM] AT attempt %d: no OK\r\n", attempt + 1);
+        HAL_Delay(1000U);
+    }
+
+    /* Phase 3: keep trying until the overall boot timeout expires. */
+    trace("[MODEM] initial AT check failed — waiting for URCs or AT...\r\n");
     while ((HAL_GetTick() - start) < MDM_BOOT_TIMEOUT_MS) {
         if (mdm_getline(line, sizeof(line), 500U, 1)) {
             char dbg[80];
@@ -232,7 +291,6 @@ static int mdm_wait_boot(void)
                 return 1;
             }
         }
-        /* Retry AT ping — modem may have been already on */
         if (mdm_is_alive()) { return 1; }
     }
     return 0;
@@ -253,10 +311,25 @@ static int mdm_at_init(void)
     rc = mdm_cmd("AT+CMEE=1", "OK", 3000U);
     tracef(buf, sizeof(buf), "[MODEM] CMEE: %s\r\n", rc == 1 ? "PASS" : "FAIL");
 
-    /* SIM status */
-    rc = mdm_cmd("AT+CPIN?", "READY", 10000U);
-    tracef(buf, sizeof(buf), "[MODEM] CPIN: %s\r\n", rc == 1 ? "PASS" : "FAIL");
-    if (rc != 1) { return 0; }
+    /* SIM status — poll up to 30 s; SIM may take 15-20 s after RDY to initialise.
+     * Match "+CPIN: READY" (not "READY") to avoid falsely matching "+CPIN: NOT READY". */
+    {
+        int sim_ready = 0;
+        uint32_t cpin_start = HAL_GetTick();
+        while ((HAL_GetTick() - cpin_start) < 30000U && !sim_ready) {
+            rc = mdm_cmd("AT+CPIN?", "+CPIN: READY", 3000U);
+            if (rc == 1) {
+                sim_ready = 1;
+            } else {
+                char dbg[64];
+                tracef(dbg, sizeof(dbg), "[MODEM] CPIN not ready (%lu s)...\r\n",
+                       (unsigned long)((HAL_GetTick() - cpin_start) / 1000U));
+                HAL_Delay(2000U);
+            }
+        }
+        tracef(buf, sizeof(buf), "[MODEM] CPIN: %s\r\n", sim_ready ? "PASS" : "FAIL");
+        if (!sim_ready) { return 0; }
+    }
 
     /* Enable registration URC */
     (void)mdm_cmd("AT+CREG=1", "OK", 3000U);
@@ -362,9 +435,14 @@ static void mdm_handle_urc_line(const char *line)
 
 /* ── Public API ────────────────────────────────────────────────────────────── */
 
-void Modem_RxByte(uint8_t byte)
+void Modem_RxByte(void)
 {
-    RingBuf_Put(&s_rx, byte);
+    /* s_rx_byte is the buffer passed to HAL_UART_Receive_IT.
+     * The HAL writes the received byte there and increments pRxBuffPtr before
+     * calling this callback, so reading pRxBuffPtr in the caller would give
+     * garbage (one byte past the buffer). Read s_rx_byte directly instead. */
+    RingBuf_Put(&s_rx, s_rx_byte);
+    s_rx_count++;
     mdm_rx_arm();
 }
 

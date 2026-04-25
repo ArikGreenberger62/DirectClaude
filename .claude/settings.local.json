@@ -25,7 +25,30 @@
       "Bash(pdftotext -layout \"C:\\\\Users\\\\arikg\\\\.claude\\\\projects\\\\C--CCoreAI-DirectClaude-DirectClaude\\\\8fab01c5-61ae-4e01-b3d3-8371b5eda87b\\\\tool-results\\\\webfetch-1776708008795-8ts03f.pdf\" /tmp/eg915n_hw.txt)",
       "Read(//tmp/**)",
       "Bash(\"C:/Users/arikg/AppData/Local/stm32cube/bundles/programmer/2.22.0+st.1/bin/STM32_Programmer_CLI.exe\" -c port=SWD freq=1000 mode=HOTPLUG -w /c/CCoreAI/DirectClaude/DirectClaude/projects/09-sms-modem/build/Debug/sms_modem.elf -rst)",
-      "Bash(\"C:/Users/arikg/AppData/Local/stm32cube/bundles/programmer/2.22.0+st.1/bin/STM32_Programmer_CLI.exe\" -c port=SWD freq=4000 mode=UR reset=HWrst -w /c/CCoreAI/DirectClaude/DirectClaude/projects/09-sms-modem/build/Debug/sms_modem.elf -rst)"
+      "Bash(\"C:/Users/arikg/AppData/Local/stm32cube/bundles/programmer/2.22.0+st.1/bin/STM32_Programmer_CLI.exe\" -c port=SWD freq=4000 mode=UR reset=HWrst -w /c/CCoreAI/DirectClaude/DirectClaude/projects/09-sms-modem/build/Debug/sms_modem.elf -rst)",
+      "Bash(python skill_loader.py \"create a new STM32 ThreadX blink project with UART trace\")",
+      "Bash(python skill_loader.py \"fix the SPI prescaler bug in 04-gsensor\")",
+      "Bash(python skill_loader.py \"flash the firmware and verify trace output on COM7\")",
+      "Bash(python skill_loader.py \"send SMS via EG915N modem with sendsms command\")",
+      "Bash(python skill_loader.py \"fix CMake linker error -lm errno\")",
+      "Bash(python run_claude.py --debug-skills \"fix the SPI prescaler bug in 04-gsensor\")",
+      "Bash(python run_claude.py --continue 09-sms-modem --debug-skills \"flash and verify trace\")",
+      "Bash(python run_claude.py --continue 09-sms-modem --show-prompt \"flash and verify trace\")",
+      "Bash(python run_claude.py --debug-skills \"create a new STM32 ThreadX blink project with UART trace\")",
+      "Bash(python run_claude.py --no-skills --show-prompt \"what does AT+CMGS do\")",
+      "Bash(python run_claude.py --debug-skills \"fix CMake linker error -lm errno\")",
+      "Bash(python run_claude.py --task code --debug-skills \"implement TCP socket open in modem driver\")",
+      "Bash(python -c \"import skill_loader; print\\('Skills found:', len\\(skill_loader.discover_skills\\(__import__\\('pathlib'\\).Path\\('skills'\\)\\)\\)\\)\")",
+      "Bash(python run_claude.py -h)",
+      "Bash(python run_claude.py --debug-skills \"the SMS receive is broken in 09-sms-modem, fix it\")",
+      "Bash(python run_claude.py --debug-skills \"add a watchdog thread to the ThreadX project\")",
+      "Bash(python run_claude.py --debug-skills \"create project 10: ADC sampling at 10kHz with DMA\")",
+      "Bash(python run_claude.py --continue 04-gsensor --debug-skills \"tweak calibration tolerance\")",
+      "Bash(python run_claude.py --no-autodetect --debug-skills \"fix sms in 09-sms-modem\")",
+      "Bash(python run_claude.py --show-prompt \"the SMS receive is broken in 09-sms-modem, fix it\")",
+      "Bash(python run_claude.py --debug-skills \"fix sms in 09-sms-modem\")",
+      "Bash(python run_claude.py -n 3 --debug-skills \"fix sms in 09-sms-modem\")",
+      "Bash(python run_claude.py --show-prompt \"fix sms in 09-sms-modem\")"
     ]
   }
 }
