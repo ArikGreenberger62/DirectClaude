@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools>=64", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ccorebridge"
+version = "0.3.1"
+description = "Local bridge between the CCoreAi browser SPA and run_claude.py."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "Proprietary" }
+authors = [{ name = "CCoreAi" }]
+dependencies = [
+  "fastapi>=0.110",
+  "uvicorn[standard]>=0.27",
+  "websockets>=12",
+  "pydantic>=2",
+]
+
+[project.scripts]
+ccorebridge = "ccorebridge.__main__:cli"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["ccorebridge*"]
+
+[tool.setuptools.package-data]
+ccorebridge = ["static/**/*"]

@@ -1,0 +1,78 @@
+{"type": "run.start", "run_id": "r_195285d678d6", "started_at": "2026-04-28T20:35:40+00:00", "project": null, "prompt": "echo test", "argv": ["C:\\Users\\arikg\\AppData\\Local\\Programs\\Python\\Python313\\python.exe", "run_claude.py", "--max-iterations", "1", "echo test"], "ts": "2026-04-28T20:35:40+00:00", "time": "23:35:40"}
+{"type": "text", "stream": "stdout", "text": "", "ts": "2026-04-28T20:35:41+00:00", "time": "23:35:41"}
+{"type": "text", "stream": "stdout", "text": "◆ Workspace : C:\\CCoreAI\\DirectClaude\\DirectClaude", "ts": "2026-04-28T20:35:41+00:00", "time": "23:35:41"}
+{"type": "text", "stream": "stdout", "text": "◆ Model     : sonnet  effort=max", "ts": "2026-04-28T20:35:41+00:00", "time": "23:35:41"}
+{"type": "text", "stream": "stdout", "text": "◆ Skills    : 4  [embedded-general/build, embedded-general/coding, embedded-general/testing, project-tfl/testing]", "ts": "2026-04-28T20:35:41+00:00", "time": "23:35:41"}
+{"type": "text", "stream": "stdout", "text": "◆ Max iters : 1  (build & trace fix-loop cap)", "ts": "2026-04-28T20:35:41+00:00", "time": "23:35:41"}
+{"type": "text", "stream": "stdout", "text": "◆ Prefix    : ~2081 tokens  (8327 chars)", "ts": "2026-04-28T20:35:41+00:00", "time": "23:35:41"}
+{"type": "text", "stream": "stdout", "text": "◆ Prompt    : echo test", "ts": "2026-04-28T20:35:41+00:00", "time": "23:35:41"}
+{"type": "text", "stream": "stdout", "text": "────────────────────────────────────────────────────────────", "ts": "2026-04-28T20:35:41+00:00", "time": "23:35:41"}
+{"type": "text", "stream": "stdout", "text": "", "ts": "2026-04-28T20:35:44+00:00", "time": "23:35:44"}
+{"type": "text", "stream": "stdout", "text": "◆ Session started  [model: claude-sonnet-4-6]", "ts": "2026-04-28T20:35:44+00:00", "time": "23:35:44"}
+{"type": "text", "stream": "stdout", "text": "────────────────────────────────────────────────────────────", "ts": "2026-04-28T20:35:44+00:00", "time": "23:35:44"}
+{"type": "text", "stream": "stdout", "text": "echo test", "ts": "2026-04-28T20:35:47+00:00", "time": "23:35:47"}
+{"type": "text", "stream": "stdout", "text": "", "ts": "2026-04-28T20:35:47+00:00", "time": "23:35:47"}
+{"type": "text", "stream": "stdout", "text": "─", "ts": "2026-04-28T20:35:47+00:00", "time": "23:35:47"}
+{"type": "text", "stream": "stdout", "text": "─", "ts": "2026-04-28T20:35:47+00:00", "time": "23:35:47"}
+{"type": "text", "stream": "stdout", "text": "─", "ts": "2026-04-28T20:35:47+00:00", "time": "23:35:47"}
+{"type": "text", "stream": "stdout", "text": "─", "ts": "2026-04-28T20:35:47+00:00", "time": "23:35:47"}
+{"type": "text", "stream": "stdout", "text": "─", "ts": "2026-04-28T20:35:47+00:00", "time": "23:35:47"}
+{"type": "text", "stream": "stdout", "text": "─", "ts": "2026-04-28T20:35:47+00:00", "time": "23:35:47"}
+{"type": "text", "stream": "stdout", "text": "─", "ts": "2026-04-28T20:35:47+00:00", "time": "23:35:47"}
+{"type": "text", "stream": "stdout", "text": "─", "ts": "2026-04-28T20:35:47+00:00", "time": "23:35:47"}
+{"type": "text", "stream": "stdout", "text": "─", "ts": "2026-04-28T20:35:47+00:00", "time": "23:35:47"}
+{"type": "text", "stream": "stdout", "text": "─", "ts": "2026-04-28T20:35:47+00:00", "time": "23:35:47"}
+{"type": "text", "stream": "stdout", "text": "─", "ts": "2026-04-28T20:35:47+00:00", "time": "23:35:47"}
+{"type": "text", "stream": "stdout", "text": "─", "ts": "2026-04-28T20:35:47+00:00", "time": "23:35:47"}
+{"type": "text", "stream": "stdout", "text": "─", "ts": "2026-04-28T20:35:47+00:00", "time": "23:35:47"}
+{"type": "text", "stream": "stdout", "text": "─", "ts": "2026-04-28T20:35:47+00:00", "time": "23:35:47"}
+{"type": "text", "stream": "stdout", "text": "─", "ts": "2026-04-28T20:35:47+00:00", "time": "23:35:47"}
+{"type": "text", "stream": "stdout", "text": "─", "ts": "2026-04-28T20:35:47+00:00", "time": "23:35:47"}
+{"type": "text", "stream": "stdout", "text": "─", "ts": "2026-04-28T20:35:47+00:00", "time": "23:35:47"}
+{"type": "text", "stream": "stdout", "text": "─", "ts": "2026-04-28T20:35:47+00:00", "time": "23:35:47"}
+{"type": "text", "stream": "stdout", "text": "─", "ts": "2026-04-28T20:35:47+00:00", "time": "23:35:47"}
+{"type": "text", "stream": "stdout", "text": "─", "ts": "2026-04-28T20:35:47+00:00", "time": "23:35:47"}
+{"type": "text", "stream": "stdout", "text": "─", "ts": "2026-04-28T20:35:47+00:00", "time": "23:35:47"}
+{"type": "text", "stream": "stdout", "text": "─", "ts": "2026-04-28T20:35:47+00:00", "time": "23:35:47"}
+{"type": "text", "stream": "stdout", "text": "─", "ts": "2026-04-28T20:35:47+00:00", "time": "23:35:47"}
+{"type": "text", "stream": "stdout", "text": "─", "ts": "2026-04-28T20:35:47+00:00", "time": "23:35:47"}
+{"type": "text", "stream": "stdout", "text": "─", "ts": "2026-04-28T20:35:47+00:00", "time": "23:35:47"}
+{"type": "text", "stream": "stdout", "text": "─", "ts": "2026-04-28T20:35:47+00:00", "time": "23:35:47"}
+{"type": "text", "stream": "stdout", "text": "─", "ts": "2026-04-28T20:35:47+00:00", "time": "23:35:47"}
+{"type": "text", "stream": "stdout", "text": "─", "ts": "2026-04-28T20:35:47+00:00", "time": "23:35:47"}
+{"type": "text", "stream": "stdout", "text": "─", "ts": "2026-04-28T20:35:47+00:00", "time": "23:35:47"}
+{"type": "text", "stream": "stdout", "text": "─", "ts": "2026-04-28T20:35:47+00:00", "time": "23:35:47"}
+{"type": "text", "stream": "stdout", "text": "─", "ts": "2026-04-28T20:35:47+00:00", "time": "23:35:47"}
+{"type": "text", "stream": "stdout", "text": "─", "ts": "2026-04-28T20:35:47+00:00", "time": "23:35:47"}
+{"type": "text", "stream": "stdout", "text": "─", "ts": "2026-04-28T20:35:47+00:00", "time": "23:35:47"}
+{"type": "text", "stream": "stdout", "text": "─", "ts": "2026-04-28T20:35:47+00:00", "time": "23:35:47"}
+{"type": "text", "stream": "stdout", "text": "─", "ts": "2026-04-28T20:35:47+00:00", "time": "23:35:47"}
+{"type": "text", "stream": "stdout", "text": "─", "ts": "2026-04-28T20:35:47+00:00", "time": "23:35:47"}
+{"type": "text", "stream": "stdout", "text": "─", "ts": "2026-04-28T20:35:47+00:00", "time": "23:35:47"}
+{"type": "text", "stream": "stdout", "text": "─", "ts": "2026-04-28T20:35:47+00:00", "time": "23:35:47"}
+{"type": "text", "stream": "stdout", "text": "─", "ts": "2026-04-28T20:35:47+00:00", "time": "23:35:47"}
+{"type": "text", "stream": "stdout", "text": "─", "ts": "2026-04-28T20:35:47+00:00", "time": "23:35:47"}
+{"type": "text", "stream": "stdout", "text": "─", "ts": "2026-04-28T20:35:47+00:00", "time": "23:35:47"}
+{"type": "text", "stream": "stdout", "text": "─", "ts": "2026-04-28T20:35:47+00:00", "time": "23:35:47"}
+{"type": "text", "stream": "stdout", "text": "─", "ts": "2026-04-28T20:35:47+00:00", "time": "23:35:47"}
+{"type": "text", "stream": "stdout", "text": "─", "ts": "2026-04-28T20:35:47+00:00", "time": "23:35:47"}
+{"type": "text", "stream": "stdout", "text": "─", "ts": "2026-04-28T20:35:47+00:00", "time": "23:35:47"}
+{"type": "text", "stream": "stdout", "text": "─", "ts": "2026-04-28T20:35:47+00:00", "time": "23:35:47"}
+{"type": "text", "stream": "stdout", "text": "─", "ts": "2026-04-28T20:35:47+00:00", "time": "23:35:47"}
+{"type": "text", "stream": "stdout", "text": "─", "ts": "2026-04-28T20:35:47+00:00", "time": "23:35:47"}
+{"type": "text", "stream": "stdout", "text": "─", "ts": "2026-04-28T20:35:47+00:00", "time": "23:35:47"}
+{"type": "text", "stream": "stdout", "text": "─", "ts": "2026-04-28T20:35:47+00:00", "time": "23:35:47"}
+{"type": "text", "stream": "stdout", "text": "─", "ts": "2026-04-28T20:35:47+00:00", "time": "23:35:47"}
+{"type": "text", "stream": "stdout", "text": "─", "ts": "2026-04-28T20:35:47+00:00", "time": "23:35:47"}
+{"type": "text", "stream": "stdout", "text": "─", "ts": "2026-04-28T20:35:47+00:00", "time": "23:35:47"}
+{"type": "text", "stream": "stdout", "text": "─", "ts": "2026-04-28T20:35:47+00:00", "time": "23:35:47"}
+{"type": "text", "stream": "stdout", "text": "─", "ts": "2026-04-28T20:35:47+00:00", "time": "23:35:47"}
+{"type": "text", "stream": "stdout", "text": "─", "ts": "2026-04-28T20:35:47+00:00", "time": "23:35:47"}
+{"type": "text", "stream": "stdout", "text": "─", "ts": "2026-04-28T20:35:47+00:00", "time": "23:35:47"}
+{"type": "text", "stream": "stdout", "text": "─", "ts": "2026-04-28T20:35:47+00:00", "time": "23:35:47"}
+{"type": "text", "stream": "stdout", "text": "─", "ts": "2026-04-28T20:35:47+00:00", "time": "23:35:47"}
+{"type": "text", "stream": "stdout", "text": "─", "ts": "2026-04-28T20:35:47+00:00", "time": "23:35:47"}
+{"type": "text", "stream": "stdout", "text": "echo test", "ts": "2026-04-28T20:35:47+00:00", "time": "23:35:47"}
+{"type": "text", "stream": "stdout", "text": "", "ts": "2026-04-28T20:35:47+00:00", "time": "23:35:47"}
+{"type": "text", "stream": "stdout", "text": "✔ Done  [1 turns]", "ts": "2026-04-28T20:35:47+00:00", "time": "23:35:47"}
+{"type": "run.end", "exit_code": 0, "cost_usd": 0.0, "turns": 0, "ended_at": "2026-04-28T20:35:48+00:00", "ts": "2026-04-28T20:35:48+00:00", "time": "23:35:48"}

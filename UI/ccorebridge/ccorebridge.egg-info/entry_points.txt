@@ -1,0 +1,2 @@
+[console_scripts]
+ccorebridge = ccorebridge.__main__:cli

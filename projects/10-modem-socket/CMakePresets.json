@@ -1,0 +1,30 @@
+{
+  "version": 6,
+  "configurePresets": [
+    {
+      "name": "base",
+      "hidden": true,
+      "generator": "Ninja",
+      "toolchainFile": "${sourceDir}/../../cmake/arm-none-eabi.cmake",
+      "cacheVariables": {
+        "CMAKE_MAKE_PROGRAM": "C:/Users/arikg/AppData/Local/stm32cube/bundles/ninja/1.13.1+st.1/bin/ninja.exe"
+      }
+    },
+    {
+      "name": "Debug",
+      "inherits": "base",
+      "binaryDir": "${sourceDir}/build/Debug",
+      "cacheVariables": { "CMAKE_BUILD_TYPE": "Debug" }
+    },
+    {
+      "name": "Release",
+      "inherits": "base",
+      "binaryDir": "${sourceDir}/build/Release",
+      "cacheVariables": { "CMAKE_BUILD_TYPE": "Release" }
+    }
+  ],
+  "buildPresets": [
+    { "name": "Debug",   "configurePreset": "Debug" },
+    { "name": "Release", "configurePreset": "Release" }
+  ]
+}

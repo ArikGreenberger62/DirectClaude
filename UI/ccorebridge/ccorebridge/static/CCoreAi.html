@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>CCoreAi · Mission Control</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="/app/styles.css">
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
+</head>
+<body>
+<div class="bg-aurora"></div>
+<div class="bg-grid"></div>
+<svg class="bg-stars" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="star">
+      <stop offset="0%" stop-color="#fff" stop-opacity="1"/>
+      <stop offset="100%" stop-color="#fff" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <g fill="url(#star)">
+    <circle cx="8%" cy="14%" r="1"/>
+    <circle cx="18%" cy="62%" r="1.4"/>
+    <circle cx="28%" cy="22%" r="0.8"/>
+    <circle cx="42%" cy="78%" r="1"/>
+    <circle cx="58%" cy="34%" r="0.6"/>
+    <circle cx="72%" cy="68%" r="1.2"/>
+    <circle cx="84%" cy="20%" r="1"/>
+    <circle cx="92%" cy="48%" r="0.8"/>
+    <circle cx="63%" cy="84%" r="0.8"/>
+    <circle cx="12%" cy="88%" r="1"/>
+    <circle cx="35%" cy="48%" r="0.6"/>
+    <circle cx="78%" cy="88%" r="1"/>
+    <circle cx="48%" cy="12%" r="0.8"/>
+  </g>
+</svg>
+
+<div id="root"></div>
+
+<!-- bridge runtime: must load BEFORE components so window.CCB is available -->
+<script src="/app/bridge.js"></script>
+
+<script type="text/babel" src="/app/components/Icons.jsx"></script>
+<script type="text/babel" src="/app/components/data.jsx"></script>
+<script type="text/babel" src="/app/tweaks-panel.jsx"></script>
+<script type="text/babel" src="/app/components/Login.jsx"></script>
+<script type="text/babel" src="/app/components/ProjectSelector.jsx"></script>
+<script type="text/babel" src="/app/components/ProjectWorkspace.jsx"></script>
+
+<script type="text/babel">
+const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+  "screen": "auto",
+  "mockState": "auto",
+  "accent": "violet"
+}/*EDITMODE-END*/;
+
+const App = () => {
+  const [tweaks, setTweak] = useTweaks(TWEAK_DEFAULTS);
+  const [route, setRoute] = React.useState("login"); // login | projects | workspace
+  const [user, setUser] = React.useState(null);
+  const [project, setProject] = React.useState(null);
+
+  // Apply tweak-driven screen override
+  React.useEffect(() => {
+    if (tweaks.screen === "login") setRoute("login");
+    else if (tweaks.screen === "projects") { setUser(u => u || "arik"); setRoute("projects"); }
+    else if (tweaks.screen === "workspace") {
+      setUser(u => u || "arik");
+      setProject(p => p || SAMPLE_PROJECTS[0]);
+      setRoute("workspace");
+    }
+  }, [tweaks.screen]);
+
+  // Apply accent
+  React.useEffect(() => {
+    const r = document.documentElement;
+    if (tweaks.accent === "magenta") {
+      r.style.setProperty("--violet-400", "#E45BD8");
+      r.style.setProperty("--violet-500", "#C93AC0");
+      r.style.setProperty("--violet-600", "#9B228F");
+      r.style.setProperty("--violet-200", "#F5BEEF");
+    } else if (tweaks.accent === "cyan") {
+      r.style.setProperty("--violet-400", "#4FD7FF");
+      r.style.setProperty("--violet-500", "#1EB5E8");
+      r.style.setProperty("--violet-600", "#0F7FAA");
+      r.style.setProperty("--violet-200", "#B5ECFF");
+    } else {
+      r.style.setProperty("--violet-400", "#8B6FF5");
+      r.style.setProperty("--violet-500", "#6E48F0");
+      r.style.setProperty("--violet-600", "#5832D8");
+      r.style.setProperty("--violet-200", "#C9BCFF");
+    }
+  }, [tweaks.accent]);
+
+  return (
+    <div className="app-root">
+      {route === "login" && (
+        <Login onLogin={u => { setUser(u); setRoute("projects"); }}/>
+      )}
+      {route === "projects" && (
+        <ProjectSelector
+          projects={SAMPLE_PROJECTS}
+          user={user || "arik"}
+          onOpen={p => { setProject(p); setRoute("workspace"); }}
+          onLogout={() => { if (window.CCB) CCB.logout(); setUser(null); setRoute("login"); }}
+          onNew={() => { setProject({ id: "new", name: "New project", mcu: "auto-detect", status: "idle", statusLabel: "Idle" }); setRoute("workspace"); }}
+        />
+      )}
+      {route === "workspace" && project && (
+        <ProjectWorkspace
+          project={project}
+          onBack={() => setRoute("projects")}
+          onLogout={() => { if (window.CCB) CCB.logout(); setUser(null); setRoute("login"); }}
+          mockState={tweaks.mockState}
+          setMockState={(v) => setTweak("mockState", v)}
+        />
+      )}
+
+      <TweaksPanel title="Tweaks (dev)">
+        <TweakSection label="Mock state">
+          <TweakRadio
+            label="Screen"
+            value={tweaks.screen}
+            onChange={v => setTweak("screen", v)}
+            options={[
+              { value: "auto", label: "Live" },
+              { value: "login", label: "Login" },
+              { value: "projects", label: "Projects" },
+              { value: "workspace", label: "Work" },
+            ]}
+          />
+          <TweakRadio
+            label="Run state"
+            value={tweaks.mockState}
+            onChange={v => setTweak("mockState", v)}
+            options={[
+              { value: "auto", label: "Live" },
+              { value: "idle", label: "Idle" },
+              { value: "running", label: "Run" },
+              { value: "waiting", label: "Confirm" },
+              { value: "done", label: "Done" },
+            ]}
+          />
+        </TweakSection>
+        <TweakSection label="Brand">
+          <TweakRadio
+            label="Accent"
+            value={tweaks.accent}
+            onChange={v => setTweak("accent", v)}
+            options={[
+              { value: "violet", label: "Violet" },
+              { value: "magenta", label: "Magenta" },
+              { value: "cyan", label: "Cyan" },
+            ]}
+          />
+        </TweakSection>
+      </TweaksPanel>
+    </div>
+  );
+};
+
+ReactDOM.createRoot(document.getElementById("root")).render(<App/>);
+</script>
+</body>
+</html>

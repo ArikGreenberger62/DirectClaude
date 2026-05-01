@@ -1,0 +1,10 @@
+{"type": "run.start", "run_id": "r_1f09e2dc4048", "started_at": "2026-04-28T20:34:02+00:00", "project": null, "prompt": "echo hello", "argv": ["C:\\Users\\arikg\\AppData\\Local\\Programs\\Python\\Python313\\python.exe", "run_claude.py", "--max-iterations", "1", "--model", "sonnet", "--effort", "max", "echo hello"], "ts": "2026-04-28T20:34:02+00:00", "time": "23:34:02"}
+{"type": "text", "stream": "stdout", "text": "\u001b[1m", "ts": "2026-04-28T20:34:03+00:00", "time": "23:34:03"}
+{"type": "text", "stream": "stdout", "text": "◆ Workspace : C:\\CCoreAI\\DirectClaude\\DirectClaude\u001b[0m", "ts": "2026-04-28T20:34:03+00:00", "time": "23:34:03"}
+{"type": "text", "stream": "stdout", "text": "\u001b[1m◆ Model     : sonnet  effort=max\u001b[0m", "ts": "2026-04-28T20:34:03+00:00", "time": "23:34:03"}
+{"type": "text", "stream": "stdout", "text": "\u001b[1m◆ Skills    : (none triggered)\u001b[0m", "ts": "2026-04-28T20:34:03+00:00", "time": "23:34:03"}
+{"type": "text", "stream": "stdout", "text": "\u001b[1m◆ Max iters : 1  (build & trace fix-loop cap)\u001b[0m", "ts": "2026-04-28T20:34:03+00:00", "time": "23:34:03"}
+{"type": "text", "stream": "stdout", "text": "\u001b[1m◆ Prefix    : ~756 tokens  (3025 chars)\u001b[0m", "ts": "2026-04-28T20:34:03+00:00", "time": "23:34:03"}
+{"type": "text", "stream": "stdout", "text": "\u001b[1m◆ Prompt    : echo hello\u001b[0m", "ts": "2026-04-28T20:34:03+00:00", "time": "23:34:03"}
+{"type": "text", "stream": "stdout", "text": "\u001b[2m────────────────────────────────────────────────────────────\u001b[0m", "ts": "2026-04-28T20:34:03+00:00", "time": "23:34:03"}
+{"type": "run.end", "exit_code": 1, "cost_usd": 0.0, "turns": 0, "ended_at": "2026-04-28T20:34:06+00:00", "ts": "2026-04-28T20:34:06+00:00", "time": "23:34:06"}

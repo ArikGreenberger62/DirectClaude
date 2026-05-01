@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python -m pip install -e . --quiet --disable-pip-version-check)",
+      "Bash(python -c \"from ccorebridge.server import create_app; from ccorebridge.runner import RunnerManager; from ccorebridge.confirm import classify; from ccorebridge import projects; print\\('imports OK'\\)\")",
+      "Bash(python -m ccorebridge C:/CCoreAI/DirectClaude/DirectClaude --port 8765)",
+      "Bash(echo \"pid=$!\")",
+      "Read(//tmp/**)",
+      "Bash(curl -s -H 'Authorization: Bearer PufEMTW0AyjAC9Yzi7KolJA2K_EOQ37PGZ58HJyeP2c' http://127.0.0.1:8765/api/projects)",
+      "Bash(curl -s http://127.0.0.1:8765/app/bridge.js)",
+      "Bash(curl -s http://127.0.0.1:8765/app/components/Login.jsx)",
+      "Bash(kill 1529)"
+    ]
+  }
+}
