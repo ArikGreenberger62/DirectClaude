@@ -1,5 +1,5 @@
 // Project Selector screen
-const ProjectSelector = ({ projects, onOpen, onLogout, onNew, user }) => {
+const ProjectSelector = ({ projects, onOpen, onLogout, onNew, onDelete, user }) => {
   const [q, setQ] = React.useState("");
   const filtered = projects.filter(p =>
     !q || p.name.toLowerCase().includes(q.toLowerCase()) ||
@@ -98,16 +98,17 @@ const ProjectSelector = ({ projects, onOpen, onLogout, onNew, user }) => {
             </button>
 
             {filtered.map((p, i) => (
-              <button key={p.id} className="card anim-up" onClick={() => onOpen(p)}
-                style={{
-                  padding: 22, textAlign: "left", cursor: "pointer",
-                  display: "flex", flexDirection: "column", gap: 14,
-                  minHeight: 168, transition: "all .15s",
-                  animationDelay: (i * 30) + "ms",
-                  background: "linear-gradient(180deg, rgba(27,22,56,0.7) 0%, rgba(20,16,42,0.7) 100%)",
-                }}
-                onMouseEnter={e => { e.currentTarget.style.borderColor = "var(--border-strong)"; e.currentTarget.style.transform = "translateY(-2px)"; }}
-                onMouseLeave={e => { e.currentTarget.style.borderColor = "var(--border-1)"; e.currentTarget.style.transform = "translateY(0)"; }}>
+              <div key={p.id} className="card anim-up" style={{
+                padding: 22, textAlign: "left", cursor: "pointer",
+                display: "flex", flexDirection: "column", gap: 14,
+                minHeight: 168, transition: "all .15s",
+                animationDelay: (i * 30) + "ms",
+                background: "linear-gradient(180deg, rgba(27,22,56,0.7) 0%, rgba(20,16,42,0.7) 100%)",
+                position: "relative",
+              }}
+              onClick={() => onOpen(p)}
+              onMouseEnter={e => { e.currentTarget.style.borderColor = "var(--border-strong)"; e.currentTarget.style.transform = "translateY(-2px)"; }}
+              onMouseLeave={e => { e.currentTarget.style.borderColor = "var(--border-1)"; e.currentTarget.style.transform = "translateY(0)"; }}>
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 12 }}>
                   <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
                     <div style={{
@@ -121,7 +122,19 @@ const ProjectSelector = ({ projects, onOpen, onLogout, onNew, user }) => {
                       <div style={{ color: "var(--fg-3)", fontSize: 11.5, fontFamily: "var(--font-mono)", marginTop: 2 }}>{p.mcu}</div>
                     </div>
                   </div>
-                  {statusPill(p.status, p.statusLabel)}
+                  <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                    {statusPill(p.status, p.statusLabel)}
+                    <button
+                      className="btn btn-ghost btn-sm"
+                      title="Delete project"
+                      onClick={(e) => { e.stopPropagation(); if (confirm("Delete project '" + p.name + "'? This cannot be undone.")) onDelete && onDelete(p); }}
+                      style={{ padding: "4px 6px", color: "var(--fg-3)" }}
+                      onMouseEnter={e => { e.currentTarget.style.color = "var(--err)"; }}
+                      onMouseLeave={e => { e.currentTarget.style.color = "var(--fg-3)"; }}
+                    >
+                      <Icon.Trash size={13}/>
+                    </button>
+                  </div>
                 </div>
 
                 <div style={{ color: "var(--fg-2)", fontSize: 13, lineHeight: 1.5, flex: 1 }}>
@@ -134,14 +147,14 @@ const ProjectSelector = ({ projects, onOpen, onLogout, onNew, user }) => {
                   borderTop: "1px solid var(--border-1)",
                 }}>
                   <span style={{ display: "inline-flex", alignItems: "center", gap: 5 }}>
-                    <Icon.Clock size={12}/> {p.lastRun}
+                    <Icon.Clock size={12}/> {p.lastRun || "never"}
                   </span>
                   <span style={{ display: "inline-flex", alignItems: "center", gap: 12 }}>
                     <span style={{ display: "inline-flex", alignItems: "center", gap: 4 }}><Icon.Hash size={11}/>{p.iterations}</span>
                     <span style={{ display: "inline-flex", alignItems: "center", gap: 4 }}><Icon.Folder size={11}/>{p.files}</span>
                   </span>
                 </div>
-              </button>
+              </div>
             ))}
           </div>
         </div>

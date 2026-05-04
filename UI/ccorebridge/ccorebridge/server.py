@@ -99,6 +99,14 @@ def create_app(workspace: Path) -> FastAPI:
             raise HTTPException(status_code=404, detail="project not found")
         return info
 
+    @app.delete("/api/projects/{project_id}")
+    async def project_delete(project_id: str, request: Request) -> dict[str, Any]:
+        _check_auth(request)
+        ok = projects_mod.delete_project(workspace, project_id)
+        if not ok:
+            raise HTTPException(status_code=404, detail="project not found")
+        return {"ok": True, "deleted": project_id}
+
     # ── Runs ─────────────────────────────────────────────────────────────
     @app.post("/api/run")
     async def run_start(body: dict[str, Any], request: Request) -> dict[str, Any]:

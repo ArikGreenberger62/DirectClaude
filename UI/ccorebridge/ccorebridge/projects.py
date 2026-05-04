@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import json
 import re
+import shutil
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
@@ -143,6 +144,16 @@ def get_project(workspace: Path, project_id: str) -> dict[str, Any] | None:
         "iterations": iterations,
         "files": _count_files(proj),
     }
+
+
+def delete_project(workspace: Path, project_id: str) -> bool:
+    proj = workspace / "projects" / project_id
+    if not proj.is_dir():
+        return False
+    if ".." in project_id or "/" in project_id or "\\" in project_id:
+        return False
+    shutil.rmtree(proj)
+    return True
 
 
 def append_run_log(workspace: Path, record: dict[str, Any]) -> None:

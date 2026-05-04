@@ -28,8 +28,17 @@ const StatusBar = ({ runState, project, iter, maxIter, tokens, cost, elapsed }) 
       <span style={{ color: "var(--fg-3)", display: "inline-flex", alignItems: "center", gap: 5 }}>
         <Icon.Clock size={11}/> {elapsed}
       </span>
-      <span style={{ color: "var(--fg-3)" }}>tokens <span style={{ color: "var(--fg-1)", fontFamily: "var(--font-mono)" }}>{tokens.toLocaleString()}</span></span>
-      <span style={{ color: "var(--fg-3)" }}>cost <span style={{ color: "var(--fg-1)", fontFamily: "var(--font-mono)" }}>${cost.toFixed(3)}</span></span>
+      <div style={{
+        display: "inline-flex", alignItems: "center", gap: 10,
+        background: "rgba(139,111,245,0.10)", border: "1px solid var(--border-2)",
+        borderRadius: 8, padding: "4px 12px",
+      }}>
+        <span style={{ color: "var(--fg-2)", fontSize: 11, textTransform: "uppercase", letterSpacing: "0.05em" }}>Tokens</span>
+        <span style={{ color: "var(--cyan-400)", fontFamily: "var(--font-mono)", fontSize: 14, fontWeight: 600 }}>{tokens.toLocaleString()}</span>
+        <span style={{ color: "var(--fg-4)" }}>|</span>
+        <span style={{ color: "var(--fg-2)", fontSize: 11, textTransform: "uppercase", letterSpacing: "0.05em" }}>Cost</span>
+        <span style={{ color: "#6EE7B7", fontFamily: "var(--font-mono)", fontSize: 14, fontWeight: 600 }}>${cost.toFixed(3)}</span>
+      </div>
     </div>
   );
 };
@@ -49,11 +58,14 @@ const PipelineSteps = ({ steps }) => (
         s.state === "wait" ? "rgba(228,91,216,0.10)" :
         s.state === "fail" ? "rgba(248,113,113,0.10)" :
         "rgba(139,111,245,0.04)";
+      const isDone = s.state === "done";
       return (
         <div key={s.label} style={{
           flex: 1, padding: "8px 10px", borderRadius: 8,
           background: bg, border: "1px solid " + (s.state === "idle" ? "var(--border-1)" : color.replace(")", ", 0.35)").replace("rgba(", "rgba(")),
           display: "flex", alignItems: "center", gap: 8,
+          opacity: isDone ? 0.65 : 1,
+          transition: "opacity 0.3s ease",
         }}>
           <div style={{ color, display: "flex" }}>
             {s.state === "done" ? <Icon.Check size={13}/> :
@@ -62,7 +74,12 @@ const PipelineSteps = ({ steps }) => (
              s.state === "wait" ? <Icon.Alert size={13}/> :
              <Icon.CircleDot size={13}/>}
           </div>
-          <div style={{ fontSize: 12, color: s.state === "idle" ? "var(--fg-3)" : "var(--fg-1)", fontWeight: 500 }}>
+          <div style={{
+            fontSize: 12,
+            color: s.state === "idle" ? "var(--fg-3)" : "var(--fg-1)",
+            fontWeight: 500,
+            textDecoration: isDone ? "line-through" : "none",
+          }}>
             {s.label}
           </div>
           {s.detail && <div style={{ fontSize: 11, color: "var(--fg-3)", fontFamily: "var(--font-mono)", marginLeft: "auto" }}>{s.detail}</div>}
@@ -213,8 +230,9 @@ const TraceStream = ({ events, runState, onApprove, onReject }) => {
   );
 };
 
-const PromptComposer = ({ value, onChange, onRun, runState, onStop }) => {
+const PromptComposer = ({ value, onChange, onRun, runState, onStop, project, hasElf, onFlash, onFlashRun }) => {
   const ta = useRef(null);
+  const dsRef = useRef(null);
   useEffect(() => {
     const el = ta.current; if (!el) return;
     el.style.height = "auto";
@@ -223,12 +241,32 @@ const PromptComposer = ({ value, onChange, onRun, runState, onStop }) => {
 
   const isBusy = runState === "running" || runState === "waiting";
 
+  const handleDatasheet = () => {
+    if (dsRef.current) dsRef.current.click();
+  };
+
+  const handleDatasheetFile = (e) => {
+    const file = e.target.files && e.target.files[0];
+    if (!file) return;
+    onChange(value + (value ? " " : "") + "--datasheet " + file.name);
+    e.target.value = "";
+  };
+
+  const handleContinue = () => {
+    if (!project || !project.id) return;
+    const continueFlag = "--continue " + project.id;
+    if (!value.includes("--continue")) {
+      onChange(continueFlag + (value ? " " + value : ""));
+    }
+  };
+
   return (
     <div style={{
       borderTop: "1px solid var(--border-1)",
       padding: 14,
       background: "linear-gradient(180deg, rgba(7,6,15,0.4) 0%, rgba(14,11,30,0.85) 100%)",
     }}>
+      <input type="file" ref={dsRef} style={{ display: "none" }} accept=".pdf,.md,.txt" onChange={handleDatasheetFile}/>
       <div style={{
         border: "1px solid var(--border-2)", borderRadius: 14,
         background: "rgba(7,6,15,0.6)", padding: 12,
@@ -238,7 +276,7 @@ const PromptComposer = ({ value, onChange, onRun, runState, onStop }) => {
           ref={ta}
           value={value}
           onChange={e => onChange(e.target.value)}
-          placeholder="Describe what to build, fix, or verify…  e.g. 'flash 09-sms-modem and verify EG915N power-on trace on COM7'"
+          placeholder={"Describe what to build, fix, or verify…  e.g. 'flash " + (project ? project.id : "project") + " and verify trace on COM7'"}
           rows={2}
           onKeyDown={e => {
             if ((e.metaKey || e.ctrlKey) && e.key === "Enter") { e.preventDefault(); onRun(); }
@@ -253,9 +291,24 @@ const PromptComposer = ({ value, onChange, onRun, runState, onStop }) => {
           display: "flex", alignItems: "center", gap: 8, paddingTop: 8,
           borderTop: "1px dashed var(--border-1)", marginTop: 6,
         }}>
-          <button className="btn btn-ghost btn-sm" title="Pin a file"><Icon.Pin size={12}/> Attach datasheet</button>
+          <button className="btn btn-ghost btn-sm" title="Attach a datasheet PDF" onClick={handleDatasheet}><Icon.Pin size={12}/> Attach datasheet</button>
           <button className="btn btn-ghost btn-sm" title="Set task type"><Icon.Hash size={12}/> code, build, test</button>
-          <button className="btn btn-ghost btn-sm" title="Continue"><Icon.Folder size={12}/> --continue</button>
+          <button className="btn btn-ghost btn-sm" title="Add --continue for current project" onClick={handleContinue}><Icon.Folder size={12}/> --continue</button>
+          <div style={{ width: 1, height: 18, background: "var(--border-1)" }}/>
+          <button
+            className={"btn btn-sm" + (hasElf ? " btn-confirm" : " btn-ghost")}
+            title={hasElf ? "Flash firmware to MCU" : "No .elf file — build first"}
+            disabled={!hasElf || isBusy}
+            onClick={onFlash}
+            style={{ opacity: hasElf ? 1 : 0.4 }}
+          ><Icon.Zap size={12}/> Flash</button>
+          <button
+            className={"btn btn-sm" + (hasElf ? " btn-primary" : " btn-ghost")}
+            title={hasElf ? "Flash and run trace" : "No .elf file — build first"}
+            disabled={!hasElf || isBusy}
+            onClick={onFlashRun}
+            style={{ opacity: hasElf ? 1 : 0.4 }}
+          ><Icon.Play size={12}/> Flash & Run</button>
           <div style={{ flex: 1 }}/>
           <span style={{ color: "var(--fg-3)", fontSize: 11.5, marginRight: 6 }}>
             <span className="kbd">⌘</span> <span className="kbd">↵</span> to run
@@ -276,6 +329,20 @@ const PromptComposer = ({ value, onChange, onRun, runState, onStop }) => {
 };
 
 const SidePanel = ({ project, onBack }) => {
+  const [stateMd, setStateMd] = useState(project.stateMd || null);
+  const isNew = !project.id || project.id === "new";
+
+  useEffect(() => {
+    if (isNew || !window.CCB) return;
+    CCB.getProject(project.id).then(p => {
+      if (p && p.stateMd) setStateMd(p.stateMd);
+    }).catch(() => {});
+  }, [project.id, isNew]);
+
+  const defaultSkills = isNew
+    ? ["stm32", "embedded-general/coding", "embedded-general/build"]
+    : ["stm32", "embedded-general/coding", "embedded-general/testing"];
+
   return (
     <aside style={{
       width: 280, borderLeft: "1px solid var(--border-1)",
@@ -309,33 +376,25 @@ const SidePanel = ({ project, onBack }) => {
       <div style={{ padding: "14px 18px", borderBottom: "1px solid var(--border-1)" }}>
         <div style={{ color: "var(--fg-3)", fontSize: 11, letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: 8 }}>Skills loaded</div>
         <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
-          {["stm32", "modem", "embedded-general/coding", "embedded-general/testing"].map(s => (
+          {defaultSkills.map(s => (
             <span key={s} className="pill" style={{ fontFamily: "var(--font-mono)", fontSize: 10.5 }}>{s}</span>
           ))}
         </div>
       </div>
 
       <div style={{ padding: "14px 18px", borderBottom: "1px solid var(--border-1)", flex: 1, overflow: "auto" }}>
-        <div style={{ color: "var(--fg-3)", fontSize: 11, letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: 8 }}>STATE.md</div>
+        <div style={{ color: "var(--fg-3)", fontSize: 11, letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: 8 }}>
+          {isNew ? "New Project" : "STATE.md"}
+        </div>
         <div style={{
           background: "rgba(7,6,15,0.5)", border: "1px solid var(--border-1)",
           borderRadius: 8, padding: 10,
           fontFamily: "var(--font-mono)", fontSize: 11.5, color: "var(--fg-2)",
           whiteSpace: "pre-wrap", lineHeight: 1.6,
         }}>
-{`# 09-sms-modem — STATE
-
-## Status
-Build clean. Flash + trace verify pending.
-
-## Key facts
-- UART2 → modem (incl. CTS/RTS)
-- MC60_GNSS_PWR enables modem rail
-- MC60_PWRKEY pulse 1100 ms turns it on
-- AT cmd ref: EG915N v1.2
-
-## Next step
-RESUME: flash and read trace on COM7.`}
+          {isNew
+            ? "No STATE.md yet.\nEnter a prompt to scaffold a new firmware project."
+            : (stateMd || project.summary || "No STATE.md found.")}
         </div>
       </div>
 
@@ -349,15 +408,27 @@ RESUME: flash and read trace on COM7.`}
 };
 
 const ProjectWorkspace = ({ project, onBack, onLogout, mockState, setMockState }) => {
-  const [prompt, setPrompt] = useState("flash 09-sms-modem and verify the EG915N power-on trace on COM7");
+  const [prompt, setPrompt] = useState("");
   const [events, setEvents] = useState([]);
   const [runState, setRunState] = useState("idle"); // idle | running | waiting | done | error
   const [iter, setIter] = useState(0);
   const [tokens, setTokens] = useState(0);
   const [cost, setCost] = useState(0);
   const [elapsed, setElapsed] = useState("0s");
+  const [hasElf, setHasElf] = useState(false);
   const elapsedRef = useRef(0);
   const playRef = useRef({ idx: 0, paused: false });
+  const runIdRef = useRef(null);
+  const wsRef = useRef(null);
+  const pendingConfirmRef = useRef(null);
+
+  const hasBridge = typeof window.CCB !== "undefined";
+
+  useEffect(() => {
+    const seenBuild = events.some(e => e.kind === "tool" && (e.arg || "").toLowerCase().includes("cmake --build"));
+    const seenFlash = events.some(e => e.kind === "result" && (e.text || "").toLowerCase().includes("verify ok"));
+    if (seenBuild || seenFlash) setHasElf(true);
+  }, [events]);
 
   // Pipeline steps mirror the script
   const pipeline = useMemo(() => {
@@ -373,15 +444,16 @@ const ProjectWorkspace = ({ project, onBack, onLogout, mockState, setMockState }
 
     return [
       { label: "Plan",    state: events.length > 0 ? "done" : "idle", detail: "" },
-      { label: "Build",   state: built ? "done" : (events.length > 4 ? "active" : "idle"), detail: built ? "38.4 KB" : "" },
+      { label: "Coding",  state: built ? "done" : (events.length > 4 ? "active" : "idle"), detail: built ? "38.4 KB" : "" },
       { label: "Flash",   state: flashed ? "done" : (waiting && !flashed ? "wait" : (probe ? "active" : "idle")), detail: flashed ? "OK" : (waiting ? "approve" : "") },
-      { label: "Trace",   state: traced ? "done" : (flashed && !traced ? "active" : "idle"), detail: traced ? "COM7" : "" },
+      { label: "Run",     state: traced ? "done" : (flashed && !traced ? "active" : "idle"), detail: traced ? "COM7" : "" },
       { label: "Verify",  state: isDone ? "done" : "idle", detail: isDone ? "✓" : "" },
     ];
   }, [events, runState]);
 
-  // Driver — replays SAMPLE_RUN
+  // Mock driver — replays SAMPLE_RUN only when bridge is NOT available
   useEffect(() => {
+    if (hasBridge) return;
     if (runState !== "running") return;
     let cancelled = false;
     const tick = () => {
@@ -402,7 +474,7 @@ const ProjectWorkspace = ({ project, onBack, onLogout, mockState, setMockState }
     };
     const id = setTimeout(tick, 200);
     return () => { cancelled = true; clearTimeout(id); };
-  }, [runState]);
+  }, [runState, hasBridge]);
 
   // Elapsed timer
   useEffect(() => {
@@ -415,6 +487,11 @@ const ProjectWorkspace = ({ project, onBack, onLogout, mockState, setMockState }
     return () => clearInterval(id);
   }, [runState]);
 
+  // Cleanup WebSocket on unmount
+  useEffect(() => {
+    return () => { if (wsRef.current) wsRef.current.close(); };
+  }, []);
+
   // React to Tweaks-driven mock state
   useEffect(() => {
     if (!mockState || mockState === "auto") return;
@@ -426,7 +503,6 @@ const ProjectWorkspace = ({ project, onBack, onLogout, mockState, setMockState }
       setIter(0); setTokens(0); setCost(0); setElapsed("0s");
       setRunState("running");
     } else if (mockState === "waiting") {
-      // pre-fill up to confirm
       const upto = SAMPLE_RUN.findIndex(e => e.kind === "confirm");
       const slice = SAMPLE_RUN.slice(0, upto + 1);
       setEvents(slice);
@@ -446,32 +522,92 @@ const ProjectWorkspace = ({ project, onBack, onLogout, mockState, setMockState }
   const run = () => {
     setEvents([]); playRef.current.idx = 0; elapsedRef.current = 0;
     setIter(0); setTokens(0); setCost(0); setElapsed("0s");
-    setRunState("running");
     setMockState && setMockState("auto");
+
+    if (hasBridge) {
+      const body = { prompt: prompt.trim() };
+      if (project && project.id && project.id !== "new") {
+        body.project = project.id;
+      }
+      setRunState("running");
+      CCB.startRun(body).then(res => {
+        runIdRef.current = res.run_id;
+        if (wsRef.current) wsRef.current.close();
+        wsRef.current = CCB.openRunStream(res.run_id, (evt) => {
+          const traceEvts = CCB.toTraceEvents(evt);
+          if (!traceEvts) return;
+          for (const te of traceEvts) {
+            setEvents(prev => [...prev, te]);
+            if (te.kind === "tool") setIter(n => n + 1);
+            if (te.kind === "confirm") {
+              pendingConfirmRef.current = te.id;
+              setRunState("waiting");
+            }
+            if (te.kind === "success") setRunState("done");
+            if (te.kind === "error") setRunState("error");
+          }
+          if (evt.type === "run.end") {
+            if (typeof evt.cost_usd === "number") setCost(evt.cost_usd);
+            if (typeof evt.turns === "number") setIter(evt.turns);
+          }
+        }, (wsState) => {
+          if (wsState === "closed" && runIdRef.current) {
+            setRunState(prev => prev === "running" ? "done" : prev);
+          }
+        });
+      }).catch(err => {
+        setRunState("error");
+        setEvents([{ kind: "error", time: new Date().toTimeString().slice(0,8), text: "Failed to start run: " + (err.message || err) }]);
+      });
+    } else {
+      setRunState("running");
+    }
   };
-  const stop = () => { setRunState("idle"); };
+
+  const stop = () => {
+    if (hasBridge && runIdRef.current) {
+      CCB.stopRun(runIdRef.current).catch(() => {});
+    }
+    setRunState("idle");
+  };
+
   const approve = () => {
-    setRunState("running");
-    setTimeout(() => {
-      // continue ticking from where we left off
-      const tick = () => {
-        const i = playRef.current.idx;
-        if (i >= SAMPLE_RUN.length) { setRunState("done"); return; }
-        const ev = SAMPLE_RUN[i];
-        setEvents(prev => [...prev, ev]);
-        setTokens(t => t + 80 + Math.floor(Math.random() * 220));
-        setCost(c => c + 0.005 + Math.random() * 0.012);
-        if (ev.kind === "tool") setIter(n => n + 1);
-        playRef.current.idx = i + 1;
-        if (ev.kind === "confirm") { setRunState("waiting"); return; }
-        if (ev.kind === "success") { setRunState("done"); return; }
-        const delay = ev.kind === "result" ? 320 : ev.kind === "tool" ? 480 : ev.kind === "text" ? 700 : 260;
-        setTimeout(tick, delay);
-      };
-      tick();
-    }, 80);
+    if (hasBridge && runIdRef.current && pendingConfirmRef.current) {
+      CCB.confirm(runIdRef.current, pendingConfirmRef.current, true).catch(() => {});
+      pendingConfirmRef.current = null;
+      setRunState("running");
+    } else if (!hasBridge) {
+      setRunState("running");
+      setTimeout(() => {
+        const tick = () => {
+          const i = playRef.current.idx;
+          if (i >= SAMPLE_RUN.length) { setRunState("done"); return; }
+          const ev = SAMPLE_RUN[i];
+          setEvents(prev => [...prev, ev]);
+          setTokens(t => t + 80 + Math.floor(Math.random() * 220));
+          setCost(c => c + 0.005 + Math.random() * 0.012);
+          if (ev.kind === "tool") setIter(n => n + 1);
+          playRef.current.idx = i + 1;
+          if (ev.kind === "confirm") { setRunState("waiting"); return; }
+          if (ev.kind === "success") { setRunState("done"); return; }
+          const delay = ev.kind === "result" ? 320 : ev.kind === "tool" ? 480 : ev.kind === "text" ? 700 : 260;
+          setTimeout(tick, delay);
+        };
+        tick();
+      }, 80);
+    }
   };
-  const reject = () => { setRunState("error"); setEvents(prev => [...prev, { kind: "error", time: new Date().toTimeString().slice(0,8), text: "User rejected. Stopping run." }]); };
+
+  const reject = () => {
+    if (hasBridge && runIdRef.current && pendingConfirmRef.current) {
+      CCB.confirm(runIdRef.current, pendingConfirmRef.current, false, "User rejected").catch(() => {});
+      pendingConfirmRef.current = null;
+    }
+    setRunState("error");
+    setEvents(prev => [...prev, { kind: "error", time: new Date().toTimeString().slice(0,8), text: "User rejected. Stopping run." }]);
+  };
+  const flash = () => { setPrompt("flash " + project.id + " via ST-LINK SWD"); run(); };
+  const flashRun = () => { setPrompt("flash " + project.id + " and verify trace on COM7"); run(); };
 
   return (
     <div style={{ flex: 1, display: "flex", flexDirection: "column", overflow: "hidden" }}>
@@ -488,12 +624,21 @@ const ProjectWorkspace = ({ project, onBack, onLogout, mockState, setMockState }
           <div style={{ width: 1, height: 20, background: "var(--border-1)" }}/>
           <div className="logo">
             <div className="logo-mark"/>
-            <span style={{ fontSize: 14 }}>{project.name}</span>
+            <span style={{ fontSize: 14 }}>CCore<span className="accent" style={{
+              background: "linear-gradient(90deg, #A989FF 0%, #E45BD8 70%)",
+              WebkitBackgroundClip: "text", backgroundClip: "text", color: "transparent",
+            }}>Ai</span></span>
           </div>
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
           <span className="pill"><Icon.Cpu size={11}/> {project.mcu}</span>
           <span className="pill ok"><span className="dot ok"/>ST-LINK · COM7</span>
+          <div style={{ width: 1, height: 20, background: "var(--border-1)" }}/>
+          <span style={{
+            fontFamily: "var(--font-display)", fontSize: 15, fontWeight: 600,
+            color: "var(--fg-0)", letterSpacing: "-0.01em",
+          }}>{project.name}</span>
+          <div style={{ width: 1, height: 20, background: "var(--border-1)" }}/>
           <button className="btn btn-ghost btn-sm"><Icon.Settings size={14}/></button>
           <button className="btn btn-ghost btn-sm" onClick={onLogout}><Icon.Logout size={14}/></button>
         </div>
@@ -510,7 +655,7 @@ const ProjectWorkspace = ({ project, onBack, onLogout, mockState, setMockState }
           ) : (
             <TraceStream events={events} runState={runState} onApprove={approve} onReject={reject}/>
           )}
-          <PromptComposer value={prompt} onChange={setPrompt} onRun={run} runState={runState} onStop={stop}/>
+          <PromptComposer value={prompt} onChange={setPrompt} onRun={run} runState={runState} onStop={stop} project={project} hasElf={hasElf} onFlash={flash} onFlashRun={flashRun}/>
         </main>
         <SidePanel project={project} onBack={onBack}/>
       </div>

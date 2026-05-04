@@ -1,38 +1,6 @@
-// Project Selector screen — bridge-aware version: fetches live projects from
-// /api/projects on mount and falls back to the SAMPLE_PROJECTS array only if
-// the bridge call fails (e.g. dev mode opening the file:// page directly).
-const ProjectSelector = ({ projects: fallbackProjects, onOpen, onLogout, onNew, user }) => {
+// Project Selector screen
+const ProjectSelector = ({ projects, onOpen, onLogout, onNew, onDelete, user }) => {
   const [q, setQ] = React.useState("");
-  const [projects, setProjects] = React.useState(fallbackProjects || []);
-  const [loadErr, setLoadErr] = React.useState("");
-
-  React.useEffect(() => {
-    if (!window.CCB) return;
-    let cancelled = false;
-    CCB.listProjects().then(rows => {
-      if (cancelled) return;
-      if (Array.isArray(rows) && rows.length) {
-        setProjects(rows.map(p => ({
-          id: p.id,
-          name: p.name,
-          mcu: p.mcu || "auto-detect",
-          status: p.status || "idle",
-          statusLabel: p.statusLabel || "Idle",
-          summary: p.summary || "",
-          lastRun: p.lastRun ? new Date(p.lastRun).toLocaleString() : "—",
-          iterations: p.iterations || 0,
-          files: p.files || 0,
-        })));
-      } else {
-        setProjects(fallbackProjects || []);
-      }
-    }).catch(e => {
-      setLoadErr(e.message || String(e));
-      setProjects(fallbackProjects || []);
-    });
-    return () => { cancelled = true; };
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
-
   const filtered = projects.filter(p =>
     !q || p.name.toLowerCase().includes(q.toLowerCase()) ||
     p.summary.toLowerCase().includes(q.toLowerCase())
@@ -104,14 +72,6 @@ const ProjectSelector = ({ projects: fallbackProjects, onOpen, onLogout, onNew, 
             </div>
           </div>
 
-          {loadErr && (
-            <div style={{
-              marginBottom: 16, padding: "8px 12px", borderRadius: 8,
-              background: "rgba(250,204,21,0.10)", border: "1px solid rgba(250,204,21,0.30)",
-              color: "#FACC15", fontSize: 12,
-            }}>Bridge offline ({loadErr}). Showing cached sample projects.</div>
-          )}
-
           {/* Project grid */}
           <div style={{
             display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(320px, 1fr))",
@@ -138,16 +98,17 @@ const ProjectSelector = ({ projects: fallbackProjects, onOpen, onLogout, onNew, 
             </button>
 
             {filtered.map((p, i) => (
-              <button key={p.id} className="card anim-up" onClick={() => onOpen(p)}
-                style={{
-                  padding: 22, textAlign: "left", cursor: "pointer",
-                  display: "flex", flexDirection: "column", gap: 14,
-                  minHeight: 168, transition: "all .15s",
-                  animationDelay: (i * 30) + "ms",
-                  background: "linear-gradient(180deg, rgba(27,22,56,0.7) 0%, rgba(20,16,42,0.7) 100%)",
-                }}
-                onMouseEnter={e => { e.currentTarget.style.borderColor = "var(--border-strong)"; e.currentTarget.style.transform = "translateY(-2px)"; }}
-                onMouseLeave={e => { e.currentTarget.style.borderColor = "var(--border-1)"; e.currentTarget.style.transform = "translateY(0)"; }}>
+              <div key={p.id} className="card anim-up" style={{
+                padding: 22, textAlign: "left", cursor: "pointer",
+                display: "flex", flexDirection: "column", gap: 14,
+                minHeight: 168, transition: "all .15s",
+                animationDelay: (i * 30) + "ms",
+                background: "linear-gradient(180deg, rgba(27,22,56,0.7) 0%, rgba(20,16,42,0.7) 100%)",
+                position: "relative",
+              }}
+              onClick={() => onOpen(p)}
+              onMouseEnter={e => { e.currentTarget.style.borderColor = "var(--border-strong)"; e.currentTarget.style.transform = "translateY(-2px)"; }}
+              onMouseLeave={e => { e.currentTarget.style.borderColor = "var(--border-1)"; e.currentTarget.style.transform = "translateY(0)"; }}>
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 12 }}>
                   <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
                     <div style={{
@@ -161,7 +122,19 @@ const ProjectSelector = ({ projects: fallbackProjects, onOpen, onLogout, onNew, 
                       <div style={{ color: "var(--fg-3)", fontSize: 11.5, fontFamily: "var(--font-mono)", marginTop: 2 }}>{p.mcu}</div>
                     </div>
                   </div>
-                  {statusPill(p.status, p.statusLabel)}
+                  <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                    {statusPill(p.status, p.statusLabel)}
+                    <button
+                      className="btn btn-ghost btn-sm"
+                      title="Delete project"
+                      onClick={(e) => { e.stopPropagation(); if (confirm("Delete project '" + p.name + "'? This cannot be undone.")) onDelete && onDelete(p); }}
+                      style={{ padding: "4px 6px", color: "var(--fg-3)" }}
+                      onMouseEnter={e => { e.currentTarget.style.color = "var(--err)"; }}
+                      onMouseLeave={e => { e.currentTarget.style.color = "var(--fg-3)"; }}
+                    >
+                      <Icon.Trash size={13}/>
+                    </button>
+                  </div>
                 </div>
 
                 <div style={{ color: "var(--fg-2)", fontSize: 13, lineHeight: 1.5, flex: 1 }}>
@@ -174,14 +147,14 @@ const ProjectSelector = ({ projects: fallbackProjects, onOpen, onLogout, onNew, 
                   borderTop: "1px solid var(--border-1)",
                 }}>
                   <span style={{ display: "inline-flex", alignItems: "center", gap: 5 }}>
-                    <Icon.Clock size={12}/> {p.lastRun}
+                    <Icon.Clock size={12}/> {p.lastRun || "never"}
                   </span>
                   <span style={{ display: "inline-flex", alignItems: "center", gap: 12 }}>
                     <span style={{ display: "inline-flex", alignItems: "center", gap: 4 }}><Icon.Hash size={11}/>{p.iterations}</span>
                     <span style={{ display: "inline-flex", alignItems: "center", gap: 4 }}><Icon.Folder size={11}/>{p.files}</span>
                   </span>
                 </div>
-              </button>
+              </div>
             ))}
           </div>
         </div>

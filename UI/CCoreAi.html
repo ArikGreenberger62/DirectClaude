@@ -108,6 +108,10 @@ const App = () => {
           onOpen={p => { setProject(p); setRoute("workspace"); }}
           onLogout={() => { setUser(null); setRoute("login"); }}
           onNew={() => { setProject({ id: "new", name: "New project", mcu: "auto-detect", status: "idle", statusLabel: "Idle" }); setRoute("workspace"); }}
+          onDelete={p => {
+            const idx = SAMPLE_PROJECTS.findIndex(sp => sp.id === p.id);
+            if (idx !== -1) { SAMPLE_PROJECTS.splice(idx, 1); setRoute("login"); setRoute("projects"); }
+          }}
         />
       )}
       {route === "workspace" && project && (
