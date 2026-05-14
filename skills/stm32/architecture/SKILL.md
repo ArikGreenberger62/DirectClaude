@@ -2,24 +2,24 @@
 name: stm32/architecture
 description: STM32 HAL + CubeMX project architecture. Read when designing a new STM32 project structure.
 task_types: [arch, code, build]
-keywords: [stm32, hal, cubemx, lowlevel, project, structure, architecture, msp, peripheral, override, ioc, h573, h5xx]
+keywords: [stm32, hal, cubemx, ST_IOT, project, structure, architecture, msp, peripheral, override, ioc, h573, h5xx]
 priority: tier2
 ---
 
 # STM32 Project Architecture
 
-## LowLevel — Single Source of Truth
-- `LowLevel/` contains all CubeMX-generated HAL drivers and peripheral init
-- New projects reference `LowLevel/` via CMake paths — do NOT copy HAL files
-- When `.ioc` is regenerated → update `LowLevel/` first
+## ST_IOT — Single Source of Truth
+- `ST_IOT/` contains all CubeMX-generated HAL drivers and peripheral init
+- New projects reference `ST_IOT/` via CMake paths — do NOT copy HAL files
+- When `.ioc` is regenerated → update `ST_IOT/` first
 - Project app code lives only in `Core/Src/` and `Core/Inc/`
 
 ## File Override Pattern (M1)
-When a LowLevel file must be modified for a project:
-1. Copy `LowLevel/Core/Src/<file>.c` → `Core/Src/<file>.c`
+When a ST_IOT file must be modified for a project:
+1. Copy `ST_IOT/Core/Src/<file>.c` → `Core/Src/<file>.c`
 2. Edit the copy
 3. List `Core/Src/<file>.c` in application sources block in CMakeLists.txt
-4. **Remove** `${LL}/Core/Src/<file>.c` from LowLevel sources block
+4. **Remove** `${LL}/Core/Src/<file>.c` from ST_IOT sources block
 > Duplicate listing = duplicate symbol linker error. Project copy wins.
 
 ## HAL Usage Policy

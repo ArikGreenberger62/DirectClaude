@@ -56,7 +56,7 @@ int main(void)
     HAL_Init();
     SystemClock_Config();
 
-    /* GPIO, DMA, UARTs — LowLevel CubeMX-generated init */
+    /* GPIO, DMA, UARTs — ST_IOT CubeMX-generated init */
     MX_GPIO_Init();
     LED_Init();
     MX_GPDMA1_Init();
@@ -268,7 +268,7 @@ void assert_failed(uint8_t *file, uint32_t line)
 #endif
 
 /* ── SystemClock_Config ────────────────────────────────────────────────────── */
-/* HSE 12 MHz → PLL1 (M=1, N=40, P=2) → SYSCLK=240 MHz. Copied from LowLevel. */
+/* HSE 12 MHz → PLL1 (M=1, N=40, P=2) → SYSCLK=240 MHz. Copied from ST_IOT. */
 static void SystemClock_Config(void)
 {
     RCC_OscInitTypeDef RCC_OscInitStruct = {0};

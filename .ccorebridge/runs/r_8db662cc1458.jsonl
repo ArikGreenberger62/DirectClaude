@@ -14,7 +14,7 @@
 {"type": "text", "stream": "stdout", "text": "  ▶ Bash  ls /c/CCoreAI/DirectClaude/DirectClaude/projects/", "ts": "2026-05-05T17:46:55+00:00", "time": "20:46:55"}
 {"type": "text", "stream": "stdout", "text": "", "ts": "2026-05-05T17:46:55+00:00", "time": "20:46:55"}
 {"type": "text", "stream": "stdout", "text": "  ▶ Glob  projects/16-ignition-led/**/*", "ts": "2026-05-05T17:46:55+00:00", "time": "20:46:55"}
-{"type": "text", "stream": "stdout", "text": "Project 16 exists. Let me read its current state and the relevant LowLevel sources.", "ts": "2026-05-05T17:46:59+00:00", "time": "20:46:59"}
+{"type": "text", "stream": "stdout", "text": "Project 16 exists. Let me read its current state and the relevant ST_IOT sources.", "ts": "2026-05-05T17:46:59+00:00", "time": "20:46:59"}
 {"type": "text", "stream": "stdout", "text": "", "ts": "2026-05-05T17:47:00+00:00", "time": "20:47:00"}
 {"type": "text", "stream": "stdout", "text": "  ▶ Read  /c/CCoreAI/DirectClaude/DirectClaude/projects/16-ignition-led/Core/Src/main.c", "ts": "2026-05-05T17:47:00+00:00", "time": "20:47:00"}
 {"type": "text", "stream": "stdout", "text": "", "ts": "2026-05-05T17:47:00+00:00", "time": "20:47:00"}

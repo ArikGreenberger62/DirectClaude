@@ -25,7 +25,7 @@
 {"type": "text", "stream": "stdout", "text": "", "ts": "2026-05-04T19:53:53+00:00", "time": "22:53:53"}
 {"type": "text", "stream": "stdout", "text": "  ▶ Bash  ls -la /c/CCoreAI/DirectClaude/DirectClaude/projects/04-gsensor/.vscode/", "ts": "2026-05-04T19:53:53+00:00", "time": "22:53:53"}
 {"type": "text", "stream": "stdout", "text": "", "ts": "2026-05-04T19:53:53+00:00", "time": "22:53:53"}
-{"type": "text", "stream": "stdout", "text": "  ▶ Bash  ls -la /c/CCoreAI/DirectClaude/DirectClaude/LowLevel/Core/Src/", "ts": "2026-05-04T19:53:53+00:00", "time": "22:53:53"}
+{"type": "text", "stream": "stdout", "text": "  ▶ Bash  ls -la /c/CCoreAI/DirectClaude/DirectClaude/ST_IOT/Core/Src/", "ts": "2026-05-04T19:53:53+00:00", "time": "22:53:53"}
 {"type": "text", "stream": "stdout", "text": "", "ts": "2026-05-04T19:53:56+00:00", "time": "22:53:56"}
 {"type": "text", "stream": "stdout", "text": "  ▶ Bash  ls -la /c/CCoreAI/DirectClaude/DirectClaude/projects/04-gsensor/cmake/", "ts": "2026-05-04T19:53:56+00:00", "time": "22:53:56"}
 {"type": "text", "stream": "stdout", "text": "", "ts": "2026-05-04T19:53:56+00:00", "time": "22:53:56"}
@@ -47,21 +47,21 @@
 {"type": "text", "stream": "stdout", "text": "", "ts": "2026-05-04T19:54:01+00:00", "time": "22:54:01"}
 {"type": "text", "stream": "stdout", "text": "  ▶ Read  /c/CCoreAI/DirectClaude/DirectClaude/cmake/arm-none-eabi.cmake", "ts": "2026-05-04T19:54:01+00:00", "time": "22:54:01"}
 {"type": "text", "stream": "stdout", "text": "", "ts": "2026-05-04T19:54:01+00:00", "time": "22:54:01"}
-{"type": "text", "stream": "stdout", "text": "  ▶ Read  /c/CCoreAI/DirectClaude/DirectClaude/LowLevel/Core/Src/adc.c", "ts": "2026-05-04T19:54:01+00:00", "time": "22:54:01"}
+{"type": "text", "stream": "stdout", "text": "  ▶ Read  /c/CCoreAI/DirectClaude/DirectClaude/ST_IOT/Core/Src/adc.c", "ts": "2026-05-04T19:54:01+00:00", "time": "22:54:01"}
 {"type": "text", "stream": "stdout", "text": "", "ts": "2026-05-04T19:54:01+00:00", "time": "22:54:01"}
-{"type": "text", "stream": "stdout", "text": "  ▶ Read  /c/CCoreAI/DirectClaude/DirectClaude/LowLevel/Core/Src/gpio.c", "ts": "2026-05-04T19:54:01+00:00", "time": "22:54:01"}
+{"type": "text", "stream": "stdout", "text": "  ▶ Read  /c/CCoreAI/DirectClaude/DirectClaude/ST_IOT/Core/Src/gpio.c", "ts": "2026-05-04T19:54:01+00:00", "time": "22:54:01"}
 {"type": "text", "stream": "stdout", "text": "", "ts": "2026-05-04T19:54:03+00:00", "time": "22:54:03"}
-{"type": "text", "stream": "stdout", "text": "  ▶ Read  /c/CCoreAI/DirectClaude/DirectClaude/LowLevel/Core/Inc/main.h", "ts": "2026-05-04T19:54:03+00:00", "time": "22:54:03"}
+{"type": "text", "stream": "stdout", "text": "  ▶ Read  /c/CCoreAI/DirectClaude/DirectClaude/ST_IOT/Core/Inc/main.h", "ts": "2026-05-04T19:54:03+00:00", "time": "22:54:03"}
 {"type": "text", "stream": "stdout", "text": "", "ts": "2026-05-04T19:54:05+00:00", "time": "22:54:05"}
-{"type": "text", "stream": "stdout", "text": "  ▶ Read  /c/CCoreAI/DirectClaude/DirectClaude/LowLevel/Core/Src/main.c", "ts": "2026-05-04T19:54:05+00:00", "time": "22:54:05"}
+{"type": "text", "stream": "stdout", "text": "  ▶ Read  /c/CCoreAI/DirectClaude/DirectClaude/ST_IOT/Core/Src/main.c", "ts": "2026-05-04T19:54:05+00:00", "time": "22:54:05"}
 {"type": "text", "stream": "stdout", "text": "", "ts": "2026-05-04T19:54:05+00:00", "time": "22:54:05"}
 {"type": "text", "stream": "stdout", "text": "  ▶ Read  /c/CCoreAI/DirectClaude/DirectClaude/projects/04-gsensor/Core/Src/main.c", "ts": "2026-05-04T19:54:05+00:00", "time": "22:54:05"}
 {"type": "text", "stream": "stdout", "text": "", "ts": "2026-05-04T19:54:07+00:00", "time": "22:54:07"}
-{"type": "text", "stream": "stdout", "text": "  ▶ Bash  ls -la /c/CCoreAI/DirectClaude/DirectClaude/LowLevel/ | grep -i \"\\.ld\"", "ts": "2026-05-04T19:54:07+00:00", "time": "22:54:07"}
+{"type": "text", "stream": "stdout", "text": "  ▶ Bash  ls -la /c/CCoreAI/DirectClaude/DirectClaude/ST_IOT/ | grep -i \"\\.ld\"", "ts": "2026-05-04T19:54:07+00:00", "time": "22:54:07"}
 {"type": "text", "stream": "stdout", "text": "", "ts": "2026-05-04T19:54:07+00:00", "time": "22:54:07"}
-{"type": "text", "stream": "stdout", "text": "  ▶ Bash  find /c/CCoreAI/DirectClaude/DirectClaude/LowLevel -name \"*.ld\" -type f", "ts": "2026-05-04T19:54:07+00:00", "time": "22:54:07"}
+{"type": "text", "stream": "stdout", "text": "  ▶ Bash  find /c/CCoreAI/DirectClaude/DirectClaude/ST_IOT -name \"*.ld\" -type f", "ts": "2026-05-04T19:54:07+00:00", "time": "22:54:07"}
 {"type": "text", "stream": "stdout", "text": "", "ts": "2026-05-04T19:54:09+00:00", "time": "22:54:09"}
-{"type": "text", "stream": "stdout", "text": "  ▶ Read  /c/CCoreAI/DirectClaude/DirectClaude/LowLevel/STM32H573xx_FLASH.ld", "ts": "2026-05-04T19:54:09+00:00", "time": "22:54:09"}
+{"type": "text", "stream": "stdout", "text": "  ▶ Read  /c/CCoreAI/DirectClaude/DirectClaude/ST_IOT/STM32H573xx_FLASH.ld", "ts": "2026-05-04T19:54:09+00:00", "time": "22:54:09"}
 {"type": "text", "stream": "stdout", "text": "", "ts": "2026-05-04T19:54:09+00:00", "time": "22:54:09"}
 {"type": "text", "stream": "stdout", "text": "  ▶ Read  /c/CCoreAI/DirectClaude/DirectClaude/projects/04-gsensor/Core/Inc/main.h", "ts": "2026-05-04T19:54:09+00:00", "time": "22:54:09"}
 {"type": "text", "stream": "stdout", "text": "", "ts": "2026-05-04T19:54:52+00:00", "time": "22:54:52"}
@@ -79,7 +79,7 @@
 {"type": "text", "stream": "stdout", "text": "", "ts": "2026-05-04T19:54:55+00:00", "time": "22:54:55"}
 {"type": "text", "stream": "stdout", "text": "  ▶ Read  C:\\CCoreAI\\DirectClaude\\DirectClaude\\projects\\04-gsensor\\CMakeLists.txt", "ts": "2026-05-04T19:54:55+00:00", "time": "22:54:55"}
 {"type": "text", "stream": "stdout", "text": "", "ts": "2026-05-04T19:54:56+00:00", "time": "22:54:56"}
-{"type": "text", "stream": "stdout", "text": "  ▶ Read  C:\\CCoreAI\\DirectClaude\\DirectClaude\\LowLevel\\Core\\Src\\adc.c", "ts": "2026-05-04T19:54:56+00:00", "time": "22:54:56"}
+{"type": "text", "stream": "stdout", "text": "  ▶ Read  C:\\CCoreAI\\DirectClaude\\DirectClaude\\ST_IOT\\Core\\Src\\adc.c", "ts": "2026-05-04T19:54:56+00:00", "time": "22:54:56"}
 {"type": "text", "stream": "stdout", "text": "", "ts": "2026-05-04T19:54:56+00:00", "time": "22:54:56"}
 {"type": "text", "stream": "stdout", "text": "  ▶ Bash  find \"C:\\CCoreAI\\DirectClaude\\DirectClaude\\projects\\14-ignition-rg\" -type f 2>/d…", "ts": "2026-05-04T19:54:56+00:00", "time": "22:54:56"}
 {"type": "text", "stream": "stdout", "text": "", "ts": "2026-05-04T19:54:56+00:00", "time": "22:54:56"}

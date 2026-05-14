@@ -22,18 +22,18 @@
 {"type": "text", "stream": "stdout", "text": "  ▶ Bash  grep -i \"PC0\\|PA4\\|PA.4\\b\" \"C:/CCoreAI/DirectClaude/TFL_CONNECT_2_H573.ioc\" | he…", "ts": "2026-05-01T19:59:17+00:00", "time": "22:59:17"}
 {"type": "text", "stream": "stdout", "text": "", "ts": "2026-05-01T19:59:17+00:00", "time": "22:59:17"}
 {"type": "text", "stream": "stdout", "text": "  ▶ Read  C:/CCoreAI/DirectClaude/DirectClaude/projects/04-gsensor/CMakeLists.txt", "ts": "2026-05-01T19:59:17+00:00", "time": "22:59:17"}
-{"type": "text", "stream": "stdout", "text": "Now let me read the LowLevel ADC source and a reference main.c:", "ts": "2026-05-01T19:59:32+00:00", "time": "22:59:32"}
+{"type": "text", "stream": "stdout", "text": "Now let me read the ST_IOT ADC source and a reference main.c:", "ts": "2026-05-01T19:59:32+00:00", "time": "22:59:32"}
 {"type": "text", "stream": "stdout", "text": "", "ts": "2026-05-01T19:59:32+00:00", "time": "22:59:32"}
-{"type": "text", "stream": "stdout", "text": "  ▶ Read  C:/CCoreAI/DirectClaude/DirectClaude/LowLevel/Core/Src/adc.c", "ts": "2026-05-01T19:59:32+00:00", "time": "22:59:32"}
+{"type": "text", "stream": "stdout", "text": "  ▶ Read  C:/CCoreAI/DirectClaude/DirectClaude/ST_IOT/Core/Src/adc.c", "ts": "2026-05-01T19:59:32+00:00", "time": "22:59:32"}
 {"type": "text", "stream": "stdout", "text": "", "ts": "2026-05-01T19:59:33+00:00", "time": "22:59:33"}
 {"type": "text", "stream": "stdout", "text": "  ▶ Read  C:/CCoreAI/DirectClaude/DirectClaude/projects/04-gsensor/CMakePresets.json", "ts": "2026-05-01T19:59:33+00:00", "time": "22:59:33"}
-{"type": "text", "stream": "stdout", "text": "Now I have everything I need. Let me check LowLevel USART and the main.h for pin definitions:", "ts": "2026-05-01T19:59:53+00:00", "time": "22:59:53"}
+{"type": "text", "stream": "stdout", "text": "Now I have everything I need. Let me check ST_IOT USART and the main.h for pin definitions:", "ts": "2026-05-01T19:59:53+00:00", "time": "22:59:53"}
 {"type": "text", "stream": "stdout", "text": "", "ts": "2026-05-01T19:59:54+00:00", "time": "22:59:54"}
 {"type": "text", "stream": "stdout", "text": "  ▶ Bash  grep -n \"UART7\\|huart7\\|ADC_PVIN\\|ADC_IGNITION\\|ADC_VBAT\" \"C:/CCoreAI/DirectClau…", "ts": "2026-05-01T19:59:54+00:00", "time": "22:59:54"}
 {"type": "text", "stream": "stdout", "text": "", "ts": "2026-05-01T19:59:55+00:00", "time": "22:59:55"}
 {"type": "text", "stream": "stdout", "text": "  ▶ Read  C:/CCoreAI/DirectClaude/DirectClaude/projects/04-gsensor/Core/Src/stm32h5xx_it.c", "ts": "2026-05-01T19:59:55+00:00", "time": "22:59:55"}
 {"type": "text", "stream": "stdout", "text": "", "ts": "2026-05-01T20:00:22+00:00", "time": "23:00:22"}
-{"type": "text", "stream": "stdout", "text": "  ▶ Bash  head -80 \"C:/CCoreAI/DirectClaude/DirectClaude/LowLevel/Core/Src/main.c\"", "ts": "2026-05-01T20:00:22+00:00", "time": "23:00:22"}
+{"type": "text", "stream": "stdout", "text": "  ▶ Bash  head -80 \"C:/CCoreAI/DirectClaude/DirectClaude/ST_IOT/Core/Src/main.c\"", "ts": "2026-05-01T20:00:22+00:00", "time": "23:00:22"}
 {"type": "text", "stream": "stdout", "text": "", "ts": "2026-05-01T20:00:22+00:00", "time": "23:00:22"}
 {"type": "text", "stream": "stdout", "text": "  ▶ Read  C:/CCoreAI/DirectClaude/DirectClaude/projects/04-gsensor/Core/Src/main.c", "ts": "2026-05-01T20:00:22+00:00", "time": "23:00:22"}
 {"type": "text", "stream": "stdout", "text": "", "ts": "2026-05-01T20:01:10+00:00", "time": "23:01:10"}

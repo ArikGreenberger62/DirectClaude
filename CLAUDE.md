@@ -1,7 +1,7 @@
 # DirectClaude — TFL_CONNECT_2 Workspace
 
 **MCU:** STM32H573VIT3Q | **HAL:** FW_H5 V1.6.0 | **RTOS:** Azure ThreadX+FileX
-**IOC:** `TFL_CONNECT_2_H573.ioc` | **LowLevel:** `LowLevel/` (CubeMX source of truth)
+**IOC:** `TFL_CONNECT_2_H573.ioc` | **ST_IOT:** `ST_IOT/` (CubeMX source of truth)
 
 ## Two entry points — same behaviour
 

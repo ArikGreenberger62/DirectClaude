@@ -1581,7 +1581,7 @@ HAL_StatusTypeDef HAL_RTCEx_SetTamper(const RTC_HandleTypeDef *hrtc, const RTC_T
   assert_param(IS_RTC_TAMPER_PULLUP_STATE(sTamper->TamperPullUp));
   /* Trigger and Filter have exclusive configurations */
   assert_param(((sTamper->Filter != RTC_TAMPERFILTER_DISABLE) &&
-                ((sTamper->Trigger == RTC_TAMPERTRIGGER_LOWLEVEL) ||
+                ((sTamper->Trigger == RTC_TAMPERTRIGGER_ST_IOT) ||
                  (sTamper->Trigger == RTC_TAMPERTRIGGER_HIGHLEVEL))) ||
                ((sTamper->Filter == RTC_TAMPERFILTER_DISABLE) &&
                 ((sTamper->Trigger == RTC_TAMPERTRIGGER_RISINGEDGE) ||
@@ -1652,7 +1652,7 @@ HAL_StatusTypeDef HAL_RTCEx_SetTamper_IT(const RTC_HandleTypeDef *hrtc, const RT
   assert_param(IS_RTC_TAMPER_PULLUP_STATE(sTamper->TamperPullUp));
   /* Trigger and Filter have exclusive configurations */
   assert_param(((sTamper->Filter != RTC_TAMPERFILTER_DISABLE) &&
-                ((sTamper->Trigger == RTC_TAMPERTRIGGER_LOWLEVEL) ||
+                ((sTamper->Trigger == RTC_TAMPERTRIGGER_ST_IOT) ||
                  (sTamper->Trigger == RTC_TAMPERTRIGGER_HIGHLEVEL))) ||
                ((sTamper->Filter == RTC_TAMPERFILTER_DISABLE) &&
                 ((sTamper->Trigger == RTC_TAMPERTRIGGER_RISINGEDGE) ||

@@ -1,6 +1,6 @@
 /* stm32h5xx_it.c — 07-dual-blink interrupt service routines
  *
- * Copied verbatim from LowLevel/Core/Src/stm32h5xx_it.c.
+ * Copied verbatim from ST_IOT/Core/Src/stm32h5xx_it.c.
  * USER CODE section adds the __errno stub required by nano.specs + -lm.
  *
  * Note: SysTick_Handler is intentionally empty.

@@ -4,7 +4,7 @@
   * @file    stm32h5xx_it.c
   * @brief   Interrupt Service Routines.
   *
-  * Copied verbatim from LowLevel/Core/Src/stm32h5xx_it.c.
+  * Copied verbatim from ST_IOT/Core/Src/stm32h5xx_it.c.
   * USER CODE section adds the __errno stub required by nano.specs when
   * any translation unit pulls in a libm symbol (e.g. sqrtf).
   ******************************************************************************

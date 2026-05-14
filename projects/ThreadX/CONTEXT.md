@@ -7,7 +7,7 @@ Two blinkers driven by Azure RTOS ThreadX:
 Net blink rate for both: 1 Hz, 50% duty cycle.
 
 ## Layout highlights
-- No `LowLevel/` dependency — HAL is pulled directly from `STM32Cube_FW_H5_V1.6.0` (same pattern as `01-blink`). Keeps the project self-contained for learning ThreadX.
+- No `ST_IOT/` dependency — HAL is pulled directly from `STM32Cube_FW_H5_V1.6.0` (same pattern as `01-blink`). Keeps the project self-contained for learning ThreadX.
 - Static byte pool (4 KB) in BSS; green thread stack is carved out of it — no linker-script changes.
 - `Core/Src/tx_initialize_low_level.S` is a **local copy** of the Cortex-M33 GNU port file, with `SYSTEM_CLOCK` retuned from the port's default 250 MHz to our **240 MHz** so SysTick ticks at exactly 100 Hz (10 ms).
 - `Core/Inc/tx_user.h` sets `TX_TIMER_TICKS_PER_SECOND=100U` to match.

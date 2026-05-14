@@ -1,6 +1,6 @@
 /* stm32h5xx_it.c — 11-adc-check
  *
- * Interrupt handlers.  Copied verbatim from LowLevel/Core/Src/stm32h5xx_it.c
+ * Interrupt handlers.  Copied verbatim from ST_IOT/Core/Src/stm32h5xx_it.c
  * with the __errno stub added in USER CODE section (required when any TU
  * pulls in a libm symbol via nano.specs).
  */
@@ -8,7 +8,7 @@
 #include "main.h"
 #include "stm32h5xx_it.h"
 
-/* ── External peripheral handles (defined in LowLevel CubeMX sources) ────── */
+/* ── External peripheral handles (defined in ST_IOT CubeMX sources) ────── */
 extern DMA_NodeTypeDef      Node_GPDMA1_Channel0;
 extern DMA_QListTypeDef     List_GPDMA1_Channel0;
 extern DMA_HandleTypeDef    handle_GPDMA1_Channel0;

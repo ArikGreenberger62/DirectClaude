@@ -109,7 +109,7 @@
   #define __COMPILER_BARRIER()                   __memory_changed()
 #endif
 
-/* #########################  Startup and Lowlevel Init  ######################## */
+/* #########################  Startup and ST_IOT Init  ######################## */
 
 #ifndef __PROGRAM_START
 #define __PROGRAM_START           __main

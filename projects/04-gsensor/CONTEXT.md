@@ -18,14 +18,14 @@ Build output (Debug):
 
 ## Architecture Decisions
 
-### Maximum LowLevel reuse
-All CubeMX-generated files from `../../LowLevel/` are referenced directly in CMakeLists.txt
+### Maximum ST_IOT reuse
+All CubeMX-generated files from `../../ST_IOT/` are referenced directly in CMakeLists.txt
 without copying. Only three files are modified and copied into the project:
 - `Core/Src/spi.c` — SPI1 changed to Mode 3 (CPOL=HIGH, CPHA=2EDGE), prescaler 16 (7.5 MHz),
   NSSPMode disabled, **MasterKeepIOState=ENABLE (AFCNTR=1)** — critical fix.
-- `Core/Src/stm32h5xx_it.c` — identical to LowLevel + `__errno` stub (nano.specs requirement).
-- `Core/Src/main.c` — uses LowLevel's SystemClock_Config and MX_* init prototypes;
-  adds LED_R/LED_G init (not in LowLevel gpio.c), gsensor application loop.
+- `Core/Src/stm32h5xx_it.c` — identical to ST_IOT + `__errno` stub (nano.specs requirement).
+- `Core/Src/main.c` — uses ST_IOT's SystemClock_Config and MX_* init prototypes;
+  adds LED_R/LED_G init (not in ST_IOT gpio.c), gsensor application loop.
 
 ### SPI1 AFCNTR fix (root cause of init failure)
 **CRITICAL DISCOVERY:** With CPOL=1 (SPI Mode 3), SCK idle state is HIGH. When SPE=0
@@ -45,7 +45,7 @@ has FIFO-drain issues with small 8-bit transfers (RXWNE handler unconditionally 
 4 bytes). The direct-register approach is simpler and more reliable.
 
 ### SPI1 DMA/IRQ disconnect
-LowLevel MspInit configures DMA channels and SPI1 IRQ for SPI1. Since we use polling
+ST_IOT MspInit configures DMA channels and SPI1 IRQ for SPI1. Since we use polling
 (direct register) only, main.c disables SPI1_IRQn and GPDMA1 Channel 1/2 IRQs, and
 nulls out hdmatx/hdmarx pointers to prevent any interference.
 
@@ -54,11 +54,11 @@ CCIPR3=0 (PCLK2 selected), not PLL1Q as MspInit intends.
 Both give 120 MHz → 7.5 MHz at prescaler 16. Sensor works either way.
 
 ### HAL timebase via TIM4
-LowLevel uses TIM4 (not SysTick) as HAL tick source via `stm32h5xx_hal_timebase_tim.c`.
+ST_IOT uses TIM4 (not SysTick) as HAL tick source via `stm32h5xx_hal_timebase_tim.c`.
 `SysTick_Handler` in `stm32h5xx_it.c` is empty. `HAL_TIM_PeriodElapsedCallback` calls
 `HAL_IncTick()` when `htim->Instance == TIM4`.
 
-### LED_R/LED_G not in LowLevel gpio.c
+### LED_R/LED_G not in ST_IOT gpio.c
 PC8 and PC9 are not in the IOC, so CubeMX did not generate their init.
 `LED_Init()` in main.c configures them as push-pull outputs after `MX_GPIO_Init()`.
 

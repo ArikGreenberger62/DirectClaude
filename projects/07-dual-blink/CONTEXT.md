@@ -5,9 +5,9 @@ Not yet flashed to hardware.
 
 Files created:
 - `CMakeLists.txt`, `CMakePresets.json`, `.vscode/` — build and IDE config
-- `Core/Inc/main.h` — board pin macros (copy of LowLevel) + LED aliases
+- `Core/Inc/main.h` — board pin macros (copy of ST_IOT) + LED aliases
 - `Core/Src/main.c` — clock init + GPIO/UART init + LED state-machine loop
-- `Core/Src/gpio.c` — overrides LowLevel gpio.c: configures PC8/PC9/PC11 only
+- `Core/Src/gpio.c` — overrides ST_IOT gpio.c: configures PC8/PC9/PC11 only
 - `Core/Src/stm32h5xx_it.c` — full ISR table copy + `__errno` stub
 
 ## Architecture Decisions
@@ -23,14 +23,14 @@ t = 200..999  RED = OFF, GREEN = ON    (800 ms)
 ```
 Both LEDs at 1 Hz. GREEN is exact inverse of RED. ✓
 
-### LowLevel reuse
+### ST_IOT reuse
 - `usart.c` used as-is (UART7 at 115200, blocking TX for trace)
-- `gpio.c` overridden (LowLevel version configures all board GPIOs; this
+- `gpio.c` overridden (ST_IOT version configures all board GPIOs; this
   project only needs PC8/PC9/PC11 and avoids side-effects on other pins)
 - `stm32h5xx_it.c` overridden (adds `__errno` stub; identical ISR table)
 
 ### HAL timebase
-TIM4 is the HAL tick source (`stm32h5xx_hal_timebase_tim.c` from LowLevel).
+TIM4 is the HAL tick source (`stm32h5xx_hal_timebase_tim.c` from ST_IOT).
 SysTick_Handler is empty. `HAL_GetTick()` returns the TIM4-driven millisecond
 counter. ✓
 

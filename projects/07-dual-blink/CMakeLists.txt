@@ -6,8 +6,8 @@ project(dual_blink
     LANGUAGES C ASM
 )
 
-# ── LowLevel folder (CubeMX-generated sources, Drivers, linker script) ────────
-set(LL "${CMAKE_SOURCE_DIR}/../../LowLevel")
+# ── ST_IOT folder (CubeMX-generated sources, Drivers, linker script) ────────
+set(LL "${CMAKE_SOURCE_DIR}/../../ST_IOT")
 
 # ── GCC toolchain bin path ────────────────────────────────────────────────────
 set(GCC_BIN
@@ -18,7 +18,7 @@ set(GCC_BIN
 add_executable(${PROJECT_NAME}.elf)
 
 # ── Application sources ───────────────────────────────────────────────────────
-# gpio.c and stm32h5xx_it.c are project overrides of their LowLevel counterparts
+# gpio.c and stm32h5xx_it.c are project overrides of their ST_IOT counterparts
 # (M1 pattern: copy → edit → list here → remove from LL sources block below).
 target_sources(${PROJECT_NAME}.elf PRIVATE
     Core/Src/main.c
@@ -26,7 +26,7 @@ target_sources(${PROJECT_NAME}.elf PRIVATE
     Core/Src/stm32h5xx_it.c  # overrides ${LL}/Core/Src/stm32h5xx_it.c + __errno stub
 )
 
-# ── LowLevel CubeMX sources (gpio.c and stm32h5xx_it.c excluded) ─────────────
+# ── ST_IOT CubeMX sources (gpio.c and stm32h5xx_it.c excluded) ─────────────
 target_sources(${PROJECT_NAME}.elf PRIVATE
     ${LL}/Core/Src/adc.c
     ${LL}/Core/Src/fdcan.c
@@ -109,7 +109,7 @@ target_compile_options(${PROJECT_NAME}.elf PRIVATE
     $<$<CONFIG:Release>:-Os -g0>
 )
 
-# ── Suppress -Wunused-parameter in ST HAL and LowLevel CubeMX sources ─────────
+# ── Suppress -Wunused-parameter in ST HAL and ST_IOT CubeMX sources ─────────
 file(GLOB LL_CORE_C_SOURCES "${LL}/Core/Src/*.c")
 set_source_files_properties(
     ${HAL_C_SOURCES}

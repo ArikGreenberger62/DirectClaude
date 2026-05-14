@@ -16,7 +16,7 @@
 
 | Decision | Reason |
 |---|---|
-| USART2 (PA2/PA3) with HW CTS/RTS (PD3/PD4) | Board wiring; reuses LowLevel MX_USART2_UART_Init which already sets UART_HWCONTROL_RTS_CTS |
+| USART2 (PA2/PA3) with HW CTS/RTS (PD3/PD4) | Board wiring; reuses ST_IOT MX_USART2_UART_Init which already sets UART_HWCONTROL_RTS_CTS |
 | UART7 (PE7/PE8) for trace/commands | Free port with FTDI on COM7 |
 | Byte-by-byte interrupt RX (HAL_UART_Receive_IT 1-byte, re-armed in callback) | Simplest ISR-safe pattern; avoids DMA complexity |
 | 512-byte ring buffer (ring_buf.c) | Decouples ISR from processing; sized for worst-case SMS URC |

@@ -4,8 +4,8 @@
  * calibration, then traces raw and calibrated XYZ at 1 Hz on UART7.
  *
  * Peripheral init (SystemClock_Config, MX_GPIO_Init, MX_GPDMA1_Init,
- * MX_SPI1_Init, MX_UART7_Init) comes from LowLevel CubeMX-generated code.
- * LED_R (PC8) and LED_G (PC9) are not in LowLevel gpio.c — initialized here.
+ * MX_SPI1_Init, MX_UART7_Init) comes from ST_IOT CubeMX-generated code.
+ * LED_R (PC8) and LED_G (PC9) are not in ST_IOT gpio.c — initialized here.
  *
  * Calibration sequence:
  *   1. Board stable → sample position 1 automatically.
@@ -56,7 +56,7 @@ int main(void)
     SystemClock_Config();
 
     /* GPIO: P3V3_SW_EN (PC11) driven HIGH, all NSS lines deasserted.
-     * LED_R/LED_G are not in LowLevel gpio.c — add them via LED_Init. */
+     * LED_R/LED_G are not in ST_IOT gpio.c — add them via LED_Init. */
     MX_GPIO_Init();
     LED_Init();
 
@@ -70,7 +70,7 @@ int main(void)
      * MspInit selects PLL1Q (120 MHz) as SPI1 kernel clock via CCIPR3. */
     MX_SPI1_Init();
 
-    /* LowLevel MspInit links DMA channels and enables SPI1 IRQ.
+    /* ST_IOT MspInit links DMA channels and enables SPI1 IRQ.
      * We use polling only — disable IRQ and unlink DMA to prevent
      * HAL_SPI_IRQHandler from interfering with HAL_SPI_TransmitReceive. */
     HAL_NVIC_DisableIRQ(SPI1_IRQn);
@@ -316,7 +316,7 @@ int main(void)
 }
 
 /* ── LED_Init ────────────────────────────────────────────────────────────── */
-/* LowLevel gpio.c does not configure PC8/PC9 (not in the IOC) — add here.   */
+/* ST_IOT gpio.c does not configure PC8/PC9 (not in the IOC) — add here.   */
 static void LED_Init(void)
 {
     GPIO_InitTypeDef GPIO_InitStruct = {0};
@@ -373,7 +373,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 }
 
 /* ── SystemClock_Config ──────────────────────────────────────────────────── */
-/* Copied verbatim from LowLevel/Core/Src/main.c (CubeMX-generated).
+/* Copied verbatim from ST_IOT/Core/Src/main.c (CubeMX-generated).
  * HSE 12 MHz → PLL1 (M=1, N=40, P=2) → SYSCLK = 240 MHz
  * PLL1Q = 12 MHz / 1 * 40 / 4 = 120 MHz  (SPI1 kernel clock)
  * APB1 = 240 MHz, APB2 = 120 MHz, APB3 = 240 MHz                          */

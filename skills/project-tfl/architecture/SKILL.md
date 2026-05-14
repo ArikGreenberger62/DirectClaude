@@ -2,7 +2,7 @@
 name: project-tfl/architecture
 description: TFL_CONNECT_2 board-specific architecture. Read when starting a new project in this workspace.
 task_types: [arch, build]
-keywords: [tfl, tfl_connect, project, new, board, structure, h573, ioc, peripheral, lowlevel, layout, checklist]
+keywords: [tfl, tfl_connect, project, new, board, structure, h573, ioc, peripheral, ST_IOT, layout, checklist]
 priority: tier3
 ---
 
@@ -18,7 +18,7 @@ priority: tier3
 DirectClaude/
 ├── CLAUDE.md               ← this master file (skill router)
 ├── TFL_CONNECT_2_H573.ioc  ← CubeMX config
-├── LowLevel/               ← CubeMX-generated sources (source of truth)
+├── ST_IOT/               ← CubeMX-generated sources (source of truth)
 │   ├── Core/Src/           ← gpio.c, usart.c, spi.c, etc.
 │   ├── Drivers/            ← HAL + CMSIS
 │   └── STM32H573xx_FLASH.ld
@@ -35,7 +35,7 @@ DirectClaude/
 ```
 
 ## Canonical Reference
-**Always examine `projects/04-gsensor/`** before starting a new project — it is the reference for CMake layout, file structure, and LowLevel integration patterns.
+**Always examine `projects/04-gsensor/`** before starting a new project — it is the reference for CMake layout, file structure, and ST_IOT integration patterns.
 
 ## Peripherals Configured in IOC
 | Peripheral | Notes |
@@ -58,5 +58,5 @@ Create in one pass — do not ask "should I create X?":
 - [ ] `cmake/arm-none-eabi.cmake` (copy from `../../cmake/`)
 - [ ] `.vscode/settings.json`, `launch.json`, `tasks.json`
 - [ ] `Core/Inc/*.h` + `Core/Src/*.c`
-- [ ] LowLevel overrides (copy + edit; remove LL reference in CMake)
+- [ ] ST_IOT overrides (copy + edit; remove LL reference in CMake)
 - [ ] `CONTEXT.md`

@@ -1,5 +1,5 @@
 /* stm32h5xx_it.c — Interrupt Service Routines for 09-sms-modem.
- * Copied from LowLevel/Core/Src/stm32h5xx_it.c.
+ * Copied from ST_IOT/Core/Src/stm32h5xx_it.c.
  * Adds: __errno stub (nano.specs libm dependency).
  */
 #include "main.h"

@@ -142,29 +142,29 @@
 {"type": "text", "stream": "stdout", "text": "  ▶ Bash  \"C:/Users/arikg/AppData/Local/stm32cube/bundles/programmer/2.22.0+st.1/bin/STM32…", "ts": "2026-04-28T21:10:46+00:00", "time": "00:10:46"}
 {"type": "text", "stream": "stdout", "text": "", "ts": "2026-04-28T21:11:09+00:00", "time": "00:11:09"}
 {"type": "text", "stream": "stdout", "text": "  ▶ Bash  \"C:/Users/arikg/AppData/Local/stm32cube/bundles/programmer/2.22.0+st.1/bin/STM32…", "ts": "2026-04-28T21:11:09+00:00", "time": "00:11:09"}
-{"type": "text", "stream": "stdout", "text": "Let me check the LowLevel MSP for UART7 configuration:", "ts": "2026-04-28T21:11:38+00:00", "time": "00:11:38"}
+{"type": "text", "stream": "stdout", "text": "Let me check the ST_IOT MSP for UART7 configuration:", "ts": "2026-04-28T21:11:38+00:00", "time": "00:11:38"}
 {"type": "text", "stream": "stdout", "text": "", "ts": "2026-04-28T21:11:38+00:00", "time": "00:11:38"}
-{"type": "text", "stream": "stdout", "text": "  ▶ Bash  grep -n \"UART7\\|PE7\\|PE8\\|AF7\" \"C:/CCoreAI/DirectClaude/DirectClaude/LowLevel/Co…", "ts": "2026-04-28T21:11:38+00:00", "time": "00:11:38"}
+{"type": "text", "stream": "stdout", "text": "  ▶ Bash  grep -n \"UART7\\|PE7\\|PE8\\|AF7\" \"C:/CCoreAI/DirectClaude/DirectClaude/ST_IOT/Co…", "ts": "2026-04-28T21:11:38+00:00", "time": "00:11:38"}
 {"type": "text", "stream": "stdout", "text": "", "ts": "2026-04-28T21:11:41+00:00", "time": "00:11:41"}
-{"type": "text", "stream": "stdout", "text": "  ▶ Bash  grep -n -i \"uart7\\|uart 7\" \"C:/CCoreAI/DirectClaude/DirectClaude/LowLevel/Core/S…", "ts": "2026-04-28T21:11:41+00:00", "time": "00:11:41"}
+{"type": "text", "stream": "stdout", "text": "  ▶ Bash  grep -n -i \"uart7\\|uart 7\" \"C:/CCoreAI/DirectClaude/DirectClaude/ST_IOT/Core/S…", "ts": "2026-04-28T21:11:41+00:00", "time": "00:11:41"}
 {"type": "text", "stream": "stdout", "text": "", "ts": "2026-04-28T21:11:44+00:00", "time": "00:11:44"}
-{"type": "text", "stream": "stdout", "text": "  ▶ Bash  grep -rn \"uart7\\|huart7\\|UART7\" \"C:/CCoreAI/DirectClaude/DirectClaude/LowLevel/C…", "ts": "2026-04-28T21:11:44+00:00", "time": "00:11:44"}
+{"type": "text", "stream": "stdout", "text": "  ▶ Bash  grep -rn \"uart7\\|huart7\\|UART7\" \"C:/CCoreAI/DirectClaude/DirectClaude/ST_IOT/C…", "ts": "2026-04-28T21:11:44+00:00", "time": "00:11:44"}
 {"type": "text", "stream": "stdout", "text": "", "ts": "2026-04-28T21:11:47+00:00", "time": "00:11:47"}
-{"type": "text", "stream": "stdout", "text": "  ▶ Bash  grep -rn \"UART7\\|huart7\" \"C:/CCoreAI/DirectClaude/DirectClaude/LowLevel/Core/Src…", "ts": "2026-04-28T21:11:47+00:00", "time": "00:11:47"}
+{"type": "text", "stream": "stdout", "text": "  ▶ Bash  grep -rn \"UART7\\|huart7\" \"C:/CCoreAI/DirectClaude/DirectClaude/ST_IOT/Core/Src…", "ts": "2026-04-28T21:11:47+00:00", "time": "00:11:47"}
 {"type": "text", "stream": "stdout", "text": "", "ts": "2026-04-28T21:11:50+00:00", "time": "00:11:50"}
 {"type": "text", "stream": "stdout", "text": "  ▶ Bash  grep -rn \"HAL_UART_MspInit\\|UART7\\|PE7\\|PE8\\|GPIOE\" \"C:/CCoreAI/DirectClaude/Dir…", "ts": "2026-04-28T21:11:50+00:00", "time": "00:11:50"}
 {"type": "text", "stream": "stdout", "text": "", "ts": "2026-04-28T21:11:53+00:00", "time": "00:11:53"}
-{"type": "text", "stream": "stdout", "text": "  ▶ Read  C:\\CCoreAI\\DirectClaude\\DirectClaude\\LowLevel\\Core\\Src\\stm32h5xx_hal_msp.c", "ts": "2026-04-28T21:11:53+00:00", "time": "00:11:53"}
+{"type": "text", "stream": "stdout", "text": "  ▶ Read  C:\\CCoreAI\\DirectClaude\\DirectClaude\\ST_IOT\\Core\\Src\\stm32h5xx_hal_msp.c", "ts": "2026-04-28T21:11:53+00:00", "time": "00:11:53"}
 {"type": "text", "stream": "stdout", "text": "", "ts": "2026-04-28T21:11:56+00:00", "time": "00:11:56"}
-{"type": "text", "stream": "stdout", "text": "  ▶ Bash  grep -n \"UART7\\|HAL_UART_MspInit\" \"C:/CCoreAI/DirectClaude/DirectClaude/LowLevel…", "ts": "2026-04-28T21:11:56+00:00", "time": "00:11:56"}
+{"type": "text", "stream": "stdout", "text": "  ▶ Bash  grep -n \"UART7\\|HAL_UART_MspInit\" \"C:/CCoreAI/DirectClaude/DirectClaude/ST_IOT…", "ts": "2026-04-28T21:11:56+00:00", "time": "00:11:56"}
 {"type": "text", "stream": "stdout", "text": "", "ts": "2026-04-28T21:11:59+00:00", "time": "00:11:59"}
-{"type": "text", "stream": "stdout", "text": "  ▶ Bash  grep -c \"HAL_UART_MspInit\\|UART7\" \"C:/CCoreAI/DirectClaude/DirectClaude/LowLevel…", "ts": "2026-04-28T21:11:59+00:00", "time": "00:11:59"}
+{"type": "text", "stream": "stdout", "text": "  ▶ Bash  grep -c \"HAL_UART_MspInit\\|UART7\" \"C:/CCoreAI/DirectClaude/DirectClaude/ST_IOT…", "ts": "2026-04-28T21:11:59+00:00", "time": "00:11:59"}
 {"type": "text", "stream": "stdout", "text": "", "ts": "2026-04-28T21:12:12+00:00", "time": "00:12:12"}
-{"type": "text", "stream": "stdout", "text": "  ▶ Read  C:\\CCoreAI\\DirectClaude\\DirectClaude\\LowLevel\\Core\\Src\\usart.c", "ts": "2026-04-28T21:12:12+00:00", "time": "00:12:12"}
+{"type": "text", "stream": "stdout", "text": "  ▶ Read  C:\\CCoreAI\\DirectClaude\\DirectClaude\\ST_IOT\\Core\\Src\\usart.c", "ts": "2026-04-28T21:12:12+00:00", "time": "00:12:12"}
 {"type": "text", "stream": "stdout", "text": "", "ts": "2026-04-28T21:12:26+00:00", "time": "00:12:26"}
-{"type": "text", "stream": "stdout", "text": "  ▶ Read  C:\\CCoreAI\\DirectClaude\\DirectClaude\\LowLevel\\Core\\Src\\stm32h5xx_hal_msp.c", "ts": "2026-04-28T21:12:26+00:00", "time": "00:12:26"}
+{"type": "text", "stream": "stdout", "text": "  ▶ Read  C:\\CCoreAI\\DirectClaude\\DirectClaude\\ST_IOT\\Core\\Src\\stm32h5xx_hal_msp.c", "ts": "2026-04-28T21:12:26+00:00", "time": "00:12:26"}
 {"type": "text", "stream": "stdout", "text": "", "ts": "2026-04-28T21:12:33+00:00", "time": "00:12:33"}
-{"type": "text", "stream": "stdout", "text": "  ▶ Bash  grep -n \"Channel4\\|GPDMA2\" \"C:/CCoreAI/DirectClaude/DirectClaude/LowLevel/Core/S…", "ts": "2026-04-28T21:12:33+00:00", "time": "00:12:33"}
+{"type": "text", "stream": "stdout", "text": "  ▶ Bash  grep -n \"Channel4\\|GPDMA2\" \"C:/CCoreAI/DirectClaude/DirectClaude/ST_IOT/Core/S…", "ts": "2026-04-28T21:12:33+00:00", "time": "00:12:33"}
 {"type": "text", "stream": "stdout", "text": "", "ts": "2026-04-28T21:12:47+00:00", "time": "00:12:47"}
 {"type": "text", "stream": "stdout", "text": "  ▶ Bash  # Start GDB server in background, then connect GDB to read PC", "ts": "2026-04-28T21:12:47+00:00", "time": "00:12:47"}
 {"type": "text", "stream": "stdout", "text": "Start-Process -Win…", "ts": "2026-04-28T21:12:47+00:00", "time": "00:12:47"}
@@ -179,7 +179,7 @@
 {"type": "text", "stream": "stdout", "text": "ser = serial.Serial('COM7', 115200,…", "ts": "2026-04-28T21:13:45+00:00", "time": "00:13:45"}
 {"type": "text", "stream": "stdout", "text": "", "ts": "2026-04-28T21:14:28+00:00", "time": "00:14:28"}
 {"type": "text", "stream": "stdout", "text": "  ▶ Read  C:\\CCoreAI\\DirectClaude\\DirectClaude\\projects\\02-uart7-echo\\Core\\Src\\main.c", "ts": "2026-04-28T21:14:28+00:00", "time": "00:14:28"}
-{"type": "text", "stream": "stdout", "text": "Let me check how a working project (04-gsensor) sets up UART7 vs what LowLevel usart.c does:", "ts": "2026-04-28T21:14:50+00:00", "time": "00:14:50"}
+{"type": "text", "stream": "stdout", "text": "Let me check how a working project (04-gsensor) sets up UART7 vs what ST_IOT usart.c does:", "ts": "2026-04-28T21:14:50+00:00", "time": "00:14:50"}
 {"type": "text", "stream": "stdout", "text": "", "ts": "2026-04-28T21:14:51+00:00", "time": "00:14:51"}
 {"type": "text", "stream": "stdout", "text": "  ▶ Bash  grep -n \"GPDMA2\\|HAL_DMA_ConfigChannelAttributes\\|DMA_CHANNEL_NPRIV\" \"C:/CCoreAI…", "ts": "2026-04-28T21:14:51+00:00", "time": "00:14:51"}
 {"type": "text", "stream": "stdout", "text": "", "ts": "2026-04-28T21:14:54+00:00", "time": "00:14:54"}
@@ -189,9 +189,9 @@
 {"type": "text", "stream": "stdout", "text": "", "ts": "2026-04-28T21:15:07+00:00", "time": "00:15:07"}
 {"type": "text", "stream": "stdout", "text": "  ▶ Read  C:\\CCoreAI\\DirectClaude\\DirectClaude\\projects\\04-gsensor\\Core\\Src\\main.c", "ts": "2026-04-28T21:15:07+00:00", "time": "00:15:07"}
 {"type": "text", "stream": "stdout", "text": "", "ts": "2026-04-28T21:15:46+00:00", "time": "00:15:46"}
-{"type": "text", "stream": "stdout", "text": "  ▶ Read  C:\\CCoreAI\\DirectClaude\\DirectClaude\\LowLevel\\Core\\Src\\gpdma.c", "ts": "2026-04-28T21:15:46+00:00", "time": "00:15:46"}
+{"type": "text", "stream": "stdout", "text": "  ▶ Read  C:\\CCoreAI\\DirectClaude\\DirectClaude\\ST_IOT\\Core\\Src\\gpdma.c", "ts": "2026-04-28T21:15:46+00:00", "time": "00:15:46"}
 {"type": "text", "stream": "stdout", "text": "", "ts": "2026-04-28T21:15:49+00:00", "time": "00:15:49"}
-{"type": "text", "stream": "stdout", "text": "  ▶ Read  C:\\CCoreAI\\DirectClaude\\DirectClaude\\LowLevel\\Core\\Src\\gpdma.c", "ts": "2026-04-28T21:15:49+00:00", "time": "00:15:49"}
+{"type": "text", "stream": "stdout", "text": "  ▶ Read  C:\\CCoreAI\\DirectClaude\\DirectClaude\\ST_IOT\\Core\\Src\\gpdma.c", "ts": "2026-04-28T21:15:49+00:00", "time": "00:15:49"}
 {"type": "text", "stream": "stdout", "text": "", "ts": "2026-04-28T21:16:07+00:00", "time": "00:16:07"}
 {"type": "text", "stream": "stdout", "text": "  ▶ Bash  grep -n \"PE7\\|PE8\\|GPIOE.*Pin_7\\|GPIOE.*Pin_8\\|H_CON_UART7\" \"C:/CCoreAI/DirectCl…", "ts": "2026-04-28T21:16:07+00:00", "time": "00:16:07"}
 {"type": "text", "stream": "stdout", "text": "", "ts": "2026-04-28T21:16:10+00:00", "time": "00:16:10"}
@@ -210,7 +210,7 @@
 {"type": "text", "stream": "stdout", "text": "", "ts": "2026-04-28T21:17:08+00:00", "time": "00:17:08"}
 {"type": "text", "stream": "stdout", "text": "  ▶ Bash  \"C:/Users/arikg/AppData/Local/stm32cube/bundles/stlink-gdbserver/7.13.0+st.3/bin…", "ts": "2026-04-28T21:17:08+00:00", "time": "00:17:08"}
 {"type": "text", "stream": "stdout", "text": "", "ts": "2026-04-28T21:17:32+00:00", "time": "00:17:32"}
-{"type": "text", "stream": "stdout", "text": "  ▶ Read  C:\\CCoreAI\\DirectClaude\\DirectClaude\\LowLevel\\Core\\Src\\iwdg.c", "ts": "2026-04-28T21:17:32+00:00", "time": "00:17:32"}
+{"type": "text", "stream": "stdout", "text": "  ▶ Read  C:\\CCoreAI\\DirectClaude\\DirectClaude\\ST_IOT\\Core\\Src\\iwdg.c", "ts": "2026-04-28T21:17:32+00:00", "time": "00:17:32"}
 {"type": "text", "stream": "stdout", "text": "", "ts": "2026-04-28T21:17:46+00:00", "time": "00:17:46"}
 {"type": "text", "stream": "stdout", "text": "  ▶ Bash  python -c \"", "ts": "2026-04-28T21:17:46+00:00", "time": "00:17:46"}
 {"type": "text", "stream": "stdout", "text": "import serial, time, sys", "ts": "2026-04-28T21:17:46+00:00", "time": "00:17:46"}
@@ -243,7 +243,7 @@
 {"type": "text", "stream": "stdout", "text": "", "ts": "2026-04-28T21:21:33+00:00", "time": "00:21:33"}
 {"type": "text", "stream": "stdout", "text": "  ▶ Read  C:\\Users\\arikg\\STM32Cube\\Repository\\STM32Cube_FW_H5_V1.6.0\\Drivers\\STM32H5xx_HAL_Driver\\Src\\stm32h5xx_hal_dma.c", "ts": "2026-04-28T21:21:33+00:00", "time": "00:21:33"}
 {"type": "text", "stream": "stdout", "text": "", "ts": "2026-04-28T21:22:01+00:00", "time": "00:22:01"}
-{"type": "text", "stream": "stdout", "text": "  ▶ Read  C:\\CCoreAI\\DirectClaude\\DirectClaude\\LowLevel\\Core\\Src\\stm32h5xx_hal_timebase_tim.c", "ts": "2026-04-28T21:22:01+00:00", "time": "00:22:01"}
+{"type": "text", "stream": "stdout", "text": "  ▶ Read  C:\\CCoreAI\\DirectClaude\\DirectClaude\\ST_IOT\\Core\\Src\\stm32h5xx_hal_timebase_tim.c", "ts": "2026-04-28T21:22:01+00:00", "time": "00:22:01"}
 {"type": "text", "stream": "stdout", "text": "The fix: remove `MX_GPDMA2_Init()` from the init sequence (following project 04's working pattern) and null out the DMA TX handles so HAL doesn't attempt DMA for blocking TX.", "ts": "2026-04-28T21:26:48+00:00", "time": "00:26:48"}
 {"type": "text", "stream": "stdout", "text": "", "ts": "2026-04-28T21:26:55+00:00", "time": "00:26:55"}
 {"type": "text", "stream": "stdout", "text": "  ▶ Edit  C:\\CCoreAI\\DirectClaude\\DirectClaude\\projects\\10-modem-socket\\Core\\Src\\main.c", "ts": "2026-04-28T21:26:55+00:00", "time": "00:26:55"}
@@ -264,10 +264,10 @@
 {"type": "text", "stream": "stdout", "text": "ser = serial.Serial('COM7', 115200,…", "ts": "2026-04-28T21:27:22+00:00", "time": "00:27:22"}
 {"type": "text", "stream": "stdout", "text": "Still 0 bytes. I need to look more carefully at what `HAL_UART_MspInit` does for UART7 — specifically whether GPDMA2 clock gets enabled.", "ts": "2026-04-28T21:29:42+00:00", "time": "00:29:42"}
 {"type": "text", "stream": "stdout", "text": "", "ts": "2026-04-28T21:29:43+00:00", "time": "00:29:43"}
-{"type": "text", "stream": "stdout", "text": "  ▶ Read  C:\\CCoreAI\\DirectClaude\\DirectClaude\\LowLevel\\Core\\Src\\usart.c", "ts": "2026-04-28T21:29:43+00:00", "time": "00:29:43"}
+{"type": "text", "stream": "stdout", "text": "  ▶ Read  C:\\CCoreAI\\DirectClaude\\DirectClaude\\ST_IOT\\Core\\Src\\usart.c", "ts": "2026-04-28T21:29:43+00:00", "time": "00:29:43"}
 {"type": "text", "stream": "stdout", "text": "The MspInit calls `HAL_DMA_Init(&handle_GPDMA2_Channel4)` with `Error_Handler()` on failure (line 418-421). Without GPDMA2 clock enabled (no `MX_GPDMA2_Init()` first), this fails → firmware crashes before printing. I need to put GPDMA2 init back AND investigate the real root cause. Let me read gpdma.c:", "ts": "2026-04-28T21:30:12+00:00", "time": "00:30:12"}
 {"type": "text", "stream": "stdout", "text": "", "ts": "2026-04-28T21:30:13+00:00", "time": "00:30:13"}
-{"type": "text", "stream": "stdout", "text": "  ▶ Read  C:\\CCoreAI\\DirectClaude\\DirectClaude\\LowLevel\\Core\\Src\\gpdma.c", "ts": "2026-04-28T21:30:13+00:00", "time": "00:30:13"}
+{"type": "text", "stream": "stdout", "text": "  ▶ Read  C:\\CCoreAI\\DirectClaude\\DirectClaude\\ST_IOT\\Core\\Src\\gpdma.c", "ts": "2026-04-28T21:30:13+00:00", "time": "00:30:13"}
 {"type": "text", "stream": "stdout", "text": "Let me read the project's interrupt file to understand which IRQ handlers are defined:", "ts": "2026-04-28T21:30:24+00:00", "time": "00:30:24"}
 {"type": "text", "stream": "stdout", "text": "", "ts": "2026-04-28T21:30:24+00:00", "time": "00:30:24"}
 {"type": "text", "stream": "stdout", "text": "  ▶ Read  C:\\CCoreAI\\DirectClaude\\DirectClaude\\projects\\10-modem-socket\\Core\\Src\\stm32h5xx_it.c", "ts": "2026-04-28T21:30:24+00:00", "time": "00:30:24"}
@@ -278,15 +278,15 @@
 {"type": "text", "stream": "stdout", "text": "  ▶ Read  C:\\CCoreAI\\DirectClaude\\DirectClaude\\projects\\04-gsensor\\Core\\Src\\main.c", "ts": "2026-04-28T21:34:03+00:00", "time": "00:34:03"}
 {"type": "text", "stream": "stdout", "text": "", "ts": "2026-04-28T21:34:09+00:00", "time": "00:34:09"}
 {"type": "text", "stream": "stdout", "text": "  ▶ Read  C:\\CCoreAI\\DirectClaude\\DirectClaude\\projects\\04-gsensor\\Core\\Src\\main.c", "ts": "2026-04-28T21:34:09+00:00", "time": "00:34:09"}
-{"type": "text", "stream": "stdout", "text": "Let me check the LowLevel HAL MSP file which is included in the build:", "ts": "2026-04-28T21:35:18+00:00", "time": "00:35:18"}
+{"type": "text", "stream": "stdout", "text": "Let me check the ST_IOT HAL MSP file which is included in the build:", "ts": "2026-04-28T21:35:18+00:00", "time": "00:35:18"}
 {"type": "text", "stream": "stdout", "text": "", "ts": "2026-04-28T21:35:18+00:00", "time": "00:35:18"}
-{"type": "text", "stream": "stdout", "text": "  ▶ Read  C:\\CCoreAI\\DirectClaude\\DirectClaude\\LowLevel\\Core\\Src\\stm32h5xx_hal_msp.c", "ts": "2026-04-28T21:35:18+00:00", "time": "00:35:18"}
+{"type": "text", "stream": "stdout", "text": "  ▶ Read  C:\\CCoreAI\\DirectClaude\\DirectClaude\\ST_IOT\\Core\\Src\\stm32h5xx_hal_msp.c", "ts": "2026-04-28T21:35:18+00:00", "time": "00:35:18"}
 {"type": "text", "stream": "stdout", "text": "Let me look at gpio.c to see if GPIOC clock is enabled:", "ts": "2026-04-28T21:35:23+00:00", "time": "00:35:23"}
 {"type": "text", "stream": "stdout", "text": "", "ts": "2026-04-28T21:35:23+00:00", "time": "00:35:23"}
 {"type": "text", "stream": "stdout", "text": "  ▶ Grep  \"GPIOC|GPIOE|PC8|PC9|PE7|PE8|CLK_ENABLE\"", "ts": "2026-04-28T21:35:23+00:00", "time": "00:35:23"}
-{"type": "text", "stream": "stdout", "text": "Let me check project 04's CMakeLists to see which LowLevel sources it includes:", "ts": "2026-04-28T21:35:38+00:00", "time": "00:35:38"}
+{"type": "text", "stream": "stdout", "text": "Let me check project 04's CMakeLists to see which ST_IOT sources it includes:", "ts": "2026-04-28T21:35:38+00:00", "time": "00:35:38"}
 {"type": "text", "stream": "stdout", "text": "", "ts": "2026-04-28T21:35:38+00:00", "time": "00:35:38"}
-{"type": "text", "stream": "stdout", "text": "  ▶ Grep  \"LowLevel|IWDG|iwdg|RTC|rtc\\.c|FDCAN|fdcan\"", "ts": "2026-04-28T21:35:38+00:00", "time": "00:35:38"}
+{"type": "text", "stream": "stdout", "text": "  ▶ Grep  \"ST_IOT|IWDG|iwdg|RTC|rtc\\.c|FDCAN|fdcan\"", "ts": "2026-04-28T21:35:38+00:00", "time": "00:35:38"}
 {"type": "text", "stream": "stdout", "text": "", "ts": "2026-04-28T21:35:42+00:00", "time": "00:35:42"}
 {"type": "text", "stream": "stdout", "text": "  ▶ Read  C:\\CCoreAI\\DirectClaude\\DirectClaude\\projects\\04-gsensor\\CMakeLists.txt", "ts": "2026-04-28T21:35:42+00:00", "time": "00:35:42"}
 {"type": "text", "stream": "stdout", "text": "Let me check project 09's main.c to see how trace init was done there:", "ts": "2026-04-28T21:37:14+00:00", "time": "00:37:14"}
@@ -390,7 +390,7 @@
 {"type": "text", "stream": "stdout", "text": "  ▶ Bash  grep -B2 -A2 \"g_boot_step\" \"C:\\CCoreAI\\DirectClaude\\DirectClaude\\projects\\10-mod…", "ts": "2026-04-28T21:51:01+00:00", "time": "00:51:01"}
 {"type": "text", "stream": "stdout", "text": "BSS cleared but g_boot_step = 0xFA71F000 (not 0 or 1-10) means the hang is BEFORE BSS clear in startup — likely in `SystemInit`. Let me check:", "ts": "2026-04-28T21:51:31+00:00", "time": "00:51:31"}
 {"type": "text", "stream": "stdout", "text": "", "ts": "2026-04-28T21:51:31+00:00", "time": "00:51:31"}
-{"type": "text", "stream": "stdout", "text": "  ▶ Read  C:\\CCoreAI\\DirectClaude\\DirectClaude\\LowLevel\\Core\\Src\\system_stm32h5xx.c", "ts": "2026-04-28T21:51:31+00:00", "time": "00:51:31"}
+{"type": "text", "stream": "stdout", "text": "  ▶ Read  C:\\CCoreAI\\DirectClaude\\DirectClaude\\ST_IOT\\Core\\Src\\system_stm32h5xx.c", "ts": "2026-04-28T21:51:31+00:00", "time": "00:51:31"}
 {"type": "text", "stream": "stdout", "text": "Found it — `SystemInit()` contains code that calls `FLASH->OPTCR |= FLASH_OPTCR_OPTSTART` if `FLASH_OPSR_CODE_OP` is set. This launches an option byte operation and causes an MCU reset! Since the programmer misidentifies the chip and may leave FLASH_OPSR in a bad state, this could be creating a reset loop before BSS is even cleared.", "ts": "2026-04-28T21:52:43+00:00", "time": "00:52:43"}
 {"type": "text", "stream": "stdout", "text": "Let me find the OPSR offset and read it:", "ts": "2026-04-28T21:52:43+00:00", "time": "00:52:43"}
 {"type": "text", "stream": "stdout", "text": "", "ts": "2026-04-28T21:52:45+00:00", "time": "00:52:45"}
@@ -409,11 +409,11 @@
 {"type": "text", "stream": "stdout", "text": "import subprocess", "ts": "2026-04-28T21:55:07+00:00", "time": "00:55:07"}
 {"type": "text", "stream": "stdout", "text": "prog = r'C:/Users/arikg/AppData/Local/stm32cube/b…", "ts": "2026-04-28T21:55:07+00:00", "time": "00:55:07"}
 {"type": "text", "stream": "stdout", "text": "", "ts": "2026-04-28T22:00:03+00:00", "time": "01:00:03"}
-{"type": "text", "stream": "stdout", "text": "  ▶ Read  C:\\CCoreAI\\DirectClaude\\DirectClaude\\LowLevel\\Core\\Src\\system_stm32h5xx.c", "ts": "2026-04-28T22:00:03+00:00", "time": "01:00:03"}
+{"type": "text", "stream": "stdout", "text": "  ▶ Read  C:\\CCoreAI\\DirectClaude\\DirectClaude\\ST_IOT\\Core\\Src\\system_stm32h5xx.c", "ts": "2026-04-28T22:00:03+00:00", "time": "01:00:03"}
 {"type": "text", "stream": "stdout", "text": "I have the full file. I'll create a project-local copy with the OPTSTART block removed, then update CMakeLists.txt to use it.", "ts": "2026-04-28T22:01:06+00:00", "time": "01:01:06"}
 {"type": "text", "stream": "stdout", "text": "", "ts": "2026-04-28T22:01:39+00:00", "time": "01:01:39"}
 {"type": "text", "stream": "stdout", "text": "  ▶ Write  C:\\CCoreAI\\DirectClaude\\DirectClaude\\projects\\10-modem-socket\\Core\\Src\\system_stm32h5xx.c", "ts": "2026-04-28T22:01:39+00:00", "time": "01:01:39"}
-{"type": "text", "stream": "stdout", "text": "Now update CMakeLists.txt to use the local copy instead of the LowLevel one:", "ts": "2026-04-28T22:01:43+00:00", "time": "01:01:43"}
+{"type": "text", "stream": "stdout", "text": "Now update CMakeLists.txt to use the local copy instead of the ST_IOT one:", "ts": "2026-04-28T22:01:43+00:00", "time": "01:01:43"}
 {"type": "text", "stream": "stdout", "text": "", "ts": "2026-04-28T22:01:44+00:00", "time": "01:01:44"}
 {"type": "text", "stream": "stdout", "text": "  ▶ Edit  C:\\CCoreAI\\DirectClaude\\DirectClaude\\projects\\10-modem-socket\\CMakeLists.txt", "ts": "2026-04-28T22:01:44+00:00", "time": "01:01:44"}
 {"type": "text", "stream": "stdout", "text": "Now build:", "ts": "2026-04-28T22:01:47+00:00", "time": "01:01:47"}
@@ -450,6 +450,6 @@
 {"type": "text", "stream": "stdout", "text": "  ▶ Bash  \"C:/ST/STM32CubeIDE_1.19.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externa…", "ts": "2026-04-28T22:04:32+00:00", "time": "01:04:32"}
 {"type": "text", "stream": "stdout", "text": "The disassembly confirms no OPTSTART code. Let me check the startup file for MSPLIM setup and the actual fault location by reading CPU registers:", "ts": "2026-04-28T22:07:20+00:00", "time": "01:07:20"}
 {"type": "text", "stream": "stdout", "text": "", "ts": "2026-04-28T22:07:21+00:00", "time": "01:07:21"}
-{"type": "text", "stream": "stdout", "text": "  ▶ Bash  grep -A 30 \"Reset_Handler\" \"C:/CCoreAI/DirectClaude/DirectClaude/LowLevel/startu…", "ts": "2026-04-28T22:07:21+00:00", "time": "01:07:21"}
+{"type": "text", "stream": "stdout", "text": "  ▶ Bash  grep -A 30 \"Reset_Handler\" \"C:/CCoreAI/DirectClaude/DirectClaude/ST_IOT/startu…", "ts": "2026-04-28T22:07:21+00:00", "time": "01:07:21"}
 {"type": "text", "stream": "stdout", "text": "", "ts": "2026-04-29T00:30:06+00:00", "time": "03:30:06"}
 {"type": "text", "stream": "stdout", "text": "  ▶ Bash  grep \"_sstack\\|_estack\\|_Min_Stack\\|STACK\\|HEAP\" \"C:/CCoreAI/DirectClaude/Direct…", "ts": "2026-04-29T00:30:06+00:00", "time": "03:30:06"}

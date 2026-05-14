@@ -401,7 +401,7 @@ typedef struct
   */
 #define RTC_TAMPERTRIGGER_RISINGEDGE       0U                    /*!< Warning : Filter must be RTC_TAMPERFILTER_DISABLE */
 #define RTC_TAMPERTRIGGER_FALLINGEDGE      1U                    /*!< Warning : Filter must be RTC_TAMPERFILTER_DISABLE */
-#define RTC_TAMPERTRIGGER_LOWLEVEL         2U                    /*!< Warning : Filter must not be RTC_TAMPERFILTER_DISABLE */
+#define RTC_TAMPERTRIGGER_ST_IOT         2U                    /*!< Warning : Filter must not be RTC_TAMPERFILTER_DISABLE */
 #define RTC_TAMPERTRIGGER_HIGHLEVEL        3U                    /*!< Warning : Filter must not be RTC_TAMPERFILTER_DISABLE */
 /**
   * @}
@@ -1807,7 +1807,7 @@ void              HAL_RTCEx_DisableRemapRtcOut2(RTC_HandleTypeDef *hrtc);
 
 #define IS_RTC_TAMPER_TRIGGER(__TRIGGER__)       (((__TRIGGER__) == RTC_TAMPERTRIGGER_RISINGEDGE)  || \
                                                   ((__TRIGGER__) == RTC_TAMPERTRIGGER_FALLINGEDGE) || \
-                                                  ((__TRIGGER__) == RTC_TAMPERTRIGGER_LOWLEVEL)    || \
+                                                  ((__TRIGGER__) == RTC_TAMPERTRIGGER_ST_IOT)    || \
                                                   ((__TRIGGER__) == RTC_TAMPERTRIGGER_HIGHLEVEL))
 
 #define IS_RTC_TAMPER_ERASE_MODE(__MODE__)       (((__MODE__) == RTC_TAMPER_ERASE_BACKUP_ENABLE) || \

@@ -10,7 +10,7 @@ DONE. ~10 KB flash / ~7.5 KB RAM. Two blinkers running on Azure RTOS.
 - LED_R PC8 — toggled every 500 ms by a `tx_timer` callback.
 - LED_G PC9 — toggled every 500 ms by a dedicated thread (prio 10, 1 KB stack).
 - Static 4 KB byte pool in BSS (no linker-script changes).
-- HAL pulled directly from `STM32Cube_FW_H5_V1.6.0` — no `LowLevel/` dependency.
+- HAL pulled directly from `STM32Cube_FW_H5_V1.6.0` — no `ST_IOT/` dependency.
 - `Core/Src/tx_initialize_low_level.S` is a **local copy**, `SYSTEM_CLOCK`
   retuned to **240 MHz** so SysTick = 100 Hz exactly.
 - `Core/Inc/tx_user.h` sets `TX_TIMER_TICKS_PER_SECOND=100U` to match.

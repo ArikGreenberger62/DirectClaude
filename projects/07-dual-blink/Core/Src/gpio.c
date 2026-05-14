@@ -1,6 +1,6 @@
 /* gpio.c — 07-dual-blink GPIO initialisation
  *
- * Overrides LowLevel/Core/Src/gpio.c (M1 pattern).
+ * Overrides ST_IOT/Core/Src/gpio.c (M1 pattern).
  *
  * Configures the three GPIOC pins used by this project:
  *   PC8  (LED_R)      — push-pull output, starts LOW (LED OFF)
@@ -10,7 +10,7 @@
  * All other board GPIO pins remain in their post-reset default
  * (input, floating). This is safe for a standalone blink demo.
  * Peripheral-specific pins (UART7 PE7/PE8, etc.) are handled by their
- * respective HAL_xxx_MspInit callbacks in LowLevel/Core/Src/usart.c.
+ * respective HAL_xxx_MspInit callbacks in ST_IOT/Core/Src/usart.c.
  */
 
 #include "gpio.h"

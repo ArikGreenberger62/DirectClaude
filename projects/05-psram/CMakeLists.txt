@@ -6,8 +6,8 @@ project(psram
     LANGUAGES C ASM
 )
 
-# ── LowLevel folder (CubeMX-generated sources, Drivers, linker script) ────────
-set(LL "${CMAKE_SOURCE_DIR}/../../LowLevel")
+# ── ST_IOT folder (CubeMX-generated sources, Drivers, linker script) ────────
+set(LL "${CMAKE_SOURCE_DIR}/../../ST_IOT")
 
 # ── Target executable ─────────────────────────────────────────────────────────
 add_executable(${PROJECT_NAME}.elf)
@@ -16,11 +16,11 @@ add_executable(${PROJECT_NAME}.elf)
 target_sources(${PROJECT_NAME}.elf PRIVATE
     Core/Src/main.c
     Core/Src/psram.c
-    Core/Src/spi.c              # copy of LowLevel spi.c with SPI2 prescaler=2, NSSPMode=DISABLE
-    Core/Src/stm32h5xx_it.c    # copy of LowLevel stm32h5xx_it.c + __errno stub
+    Core/Src/spi.c              # copy of ST_IOT spi.c with SPI2 prescaler=2, NSSPMode=DISABLE
+    Core/Src/stm32h5xx_it.c    # copy of ST_IOT stm32h5xx_it.c + __errno stub
 )
 
-# ── LowLevel CubeMX-generated Core/Src (used verbatim) ───────────────────────
+# ── ST_IOT CubeMX-generated Core/Src (used verbatim) ───────────────────────
 # NOTE: spi.c is NOT listed here — Core/Src/spi.c overrides it (M1 rule)
 target_sources(${PROJECT_NAME}.elf PRIVATE
     ${LL}/Core/Src/gpio.c
@@ -41,7 +41,7 @@ target_sources(${PROJECT_NAME}.elf PRIVATE
     ${LL}/startup_stm32h573xx.s
 )
 
-# ── LowLevel HAL driver sources ───────────────────────────────────────────────
+# ── ST_IOT HAL driver sources ───────────────────────────────────────────────
 target_sources(${PROJECT_NAME}.elf PRIVATE
     ${LL}/Drivers/STM32H5xx_HAL_Driver/Src/stm32h5xx_hal.c
     ${LL}/Drivers/STM32H5xx_HAL_Driver/Src/stm32h5xx_hal_cortex.c
@@ -102,7 +102,7 @@ target_compile_options(${PROJECT_NAME}.elf PRIVATE
     $<$<CONFIG:Release>:-Os -g0>
 )
 
-# ── Suppress -Wunused-parameter in ST HAL and LowLevel CubeMX sources ─────────
+# ── Suppress -Wunused-parameter in ST HAL and ST_IOT CubeMX sources ─────────
 file(GLOB HAL_C_SOURCES "${LL}/Drivers/STM32H5xx_HAL_Driver/Src/*.c")
 file(GLOB LL_CORE_C_SOURCES "${LL}/Core/Src/*.c")
 set_source_files_properties(

@@ -2,8 +2,8 @@
  *
  * Exercises the IS66WVS16M8FBLL-104K 128Mb PSRAM via SPI2 at 60 MHz.
  *
- * Peripheral init comes from LowLevel CubeMX-generated code.
- * LED_R (PC8) and LED_G (PC9) initialized here (not in LowLevel gpio.c).
+ * Peripheral init comes from ST_IOT CubeMX-generated code.
+ * LED_R (PC8) and LED_G (PC9) initialized here (not in ST_IOT gpio.c).
  * PE13 (PSRAM_SPI2_NSS_Pin) initialized here as GPIO output (software CS).
  *
  * UART7 command interface (115200 8N1, PE7=RX / PE8=TX):
@@ -62,7 +62,7 @@ int main(void)
     SystemClock_Config();
 
     /* GPIO: P3V3_SW_EN (PC11) HIGH, NSS lines deasserted.
-     * LED_R/LED_G and PE13 are not in LowLevel gpio.c. */
+     * LED_R/LED_G and PE13 are not in ST_IOT gpio.c. */
     MX_GPIO_Init();
     LED_Init();
     PSRAM_NSS_Init();   /* PE13 HIGH (CS deasserted) before SPI init */
@@ -351,7 +351,7 @@ static void LED_Init(void)
 }
 
 /* ── PSRAM_NSS_Init ──────────────────────────────────────────────────────── */
-/* PE13 is not configured in LowLevel gpio.c. Init as GPIO output HIGH (CS
+/* PE13 is not configured in ST_IOT gpio.c. Init as GPIO output HIGH (CS
  * deasserted). GPIOE clock is already enabled by MX_GPIO_Init.             */
 static void PSRAM_NSS_Init(void)
 {

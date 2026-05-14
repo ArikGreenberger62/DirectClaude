@@ -1,7 +1,7 @@
 /**
  * @file main.h
  * @brief 11-adc-check — ADC1 DMA trace: Ignition (PC0/CH10) + PVIN (PA4/CH18)
- *        Pin defines copied verbatim from LowLevel main.h (CubeMX-generated).
+ *        Pin defines copied verbatim from ST_IOT main.h (CubeMX-generated).
  */
 
 #ifndef __MAIN_H
@@ -15,7 +15,7 @@ extern "C" {
 
 void Error_Handler(void);
 
-/* ── Pin defines (from LowLevel/Core/Inc/main.h, CubeMX-generated) ───────── */
+/* ── Pin defines (from ST_IOT/Core/Inc/main.h, CubeMX-generated) ───────── */
 #define WIFI_SPI4_SCK_Pin GPIO_PIN_2
 #define WIFI_SPI4_SCK_GPIO_Port GPIOE
 #define STAT_CHRGR_Pin GPIO_PIN_3

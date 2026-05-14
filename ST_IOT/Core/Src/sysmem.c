@@ -5,7 +5,7 @@
  * @brief     System Memory calls file
  *
  *            For more information about which C functions
- *            need which of these lowlevel functions
+ *            need which of these ST_IOT functions
  *            please consult the Newlib or Picolibc libc manual
  ******************************************************************************
  * @attention

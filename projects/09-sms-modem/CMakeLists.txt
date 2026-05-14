@@ -6,7 +6,7 @@ project(sms_modem
     LANGUAGES C ASM
 )
 
-set(LL  "${CMAKE_SOURCE_DIR}/../../LowLevel")
+set(LL  "${CMAKE_SOURCE_DIR}/../../ST_IOT")
 set(HAL "${LL}/Drivers/STM32H5xx_HAL_Driver")
 set(GCC_BIN
     "C:/ST/STM32CubeIDE_1.19.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.14.3.rel1.win32_1.0.100.202602081740/tools/bin"
@@ -22,7 +22,7 @@ target_sources(${PROJECT_NAME}.elf PRIVATE
     Core/Src/stm32h5xx_it.c
 )
 
-# ── LowLevel CubeMX-generated Core/Src ───────────────────────────────────────
+# ── ST_IOT CubeMX-generated Core/Src ───────────────────────────────────────
 target_sources(${PROJECT_NAME}.elf PRIVATE
     ${LL}/Core/Src/gpio.c
     ${LL}/Core/Src/adc.c

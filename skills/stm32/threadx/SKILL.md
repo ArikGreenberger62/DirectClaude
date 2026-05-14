@@ -45,12 +45,12 @@ Putting it both in `tx_user.h` and as a `-D` flag triggers `-Werror=redefined`. 
 Without that define, `tx_port.h` ignores your user file and you get ThreadX defaults (e.g. 1000 Hz tick assumed) → mismatch with SysTick reload.
 
 ### 4. Static vs dynamic byte pool
-Static allocation (a BSS buffer backing `tx_byte_pool_create`) keeps the LowLevel linker script untouched — preferred. Dynamic allocation needs a `._threadx_heap` section in the .ld file and `#define USE_DYNAMIC_MEMORY_ALLOCATION` in the port asm.
+Static allocation (a BSS buffer backing `tx_byte_pool_create`) keeps the ST_IOT linker script untouched — preferred. Dynamic allocation needs a `._threadx_heap` section in the .ld file and `#define USE_DYNAMIC_MEMORY_ALLOCATION` in the port asm.
 
 ### 5. HAL_Delay / HAL_GetTick after kernel enter
 `tx_initialize_low_level.S` owns `SysTick_Handler` → `HAL_IncTick` never runs, so `HAL_GetTick` freezes. Either:
 - use `tx_thread_sleep(ticks)` from threads, or
-- install `stm32h5xx_hal_timebase_tim.c` (LowLevel provides one using TIM4) to drive HAL tick from a TIM.
+- install `stm32h5xx_hal_timebase_tim.c` (ST_IOT provides one using TIM4) to drive HAL tick from a TIM.
 
 Pure ThreadX demos (like `projects/ThreadX/`) just avoid HAL_Delay.
 

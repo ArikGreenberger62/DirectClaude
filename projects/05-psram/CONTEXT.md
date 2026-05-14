@@ -21,13 +21,13 @@
   at 60 MHz only FAST READ (with 1 dummy byte) is valid.
 - **Direct-register SPI transfers** (not HAL_SPI_TransmitReceive): avoids STM32H5
   HAL V1.6.0 FIFO bug. Pattern copied from project 04 lsm6dso.c → spi1_xfer().
-- **PE13 as software GPIO CS**: LowLevel gpio.c does not configure PE13. Initialized
+- **PE13 as software GPIO CS**: ST_IOT gpio.c does not configure PE13. Initialized
   in PSRAM_NSS_Init() in main.c (GPIOE clock already on from MX_GPIO_Init).
 - **SPI IRQ + DMA disabled after init**: MspInit links DMA channels 5/6 to SPI2
   and enables SPI2_IRQn. Immediately disabled in main.c + hdmatx/hdmarx = NULL.
 - **Mode 0 (CPOL=0) + AFCNTR=0**: safe, no spurious edge. M2 rule only applies
   to CPOL=1 (Mode 2/3). MasterKeepIOState=DISABLE is correct here.
-- **spi.c copied from LowLevel** (M1 rule): only SPI2 prescaler and NSSPMode
+- **spi.c copied from ST_IOT** (M1 rule): only SPI2 prescaler and NSSPMode
   changed; SPI1 and SPI4 kept as-is for completeness (not called from main).
 
 ## Last Session (2026-04-12)

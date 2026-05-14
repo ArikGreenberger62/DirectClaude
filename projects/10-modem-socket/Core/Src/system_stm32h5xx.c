@@ -17,7 +17,7 @@
   ******************************************************************************
   * Project-local copy for 10-modem-socket.
   *
-  * Modification vs LowLevel original:
+  * Modification vs ST_IOT original:
   *   Removed the FLASH->OPSR / FLASH->OPTCR OPTSTART block from SystemInit().
   *   That block re-launches an interrupted option-byte operation when CODE_OP = 6
   *   or 7, which triggers a system reset and an infinite reset loop when the

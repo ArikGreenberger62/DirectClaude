@@ -4,7 +4,7 @@
 Build clean. Flash and trace verify not yet done.
 
 ## Architecture Decisions
-- Full LowLevel peripheral set included (same pattern as 04-gsensor) to avoid
+- Full ST_IOT peripheral set included (same pattern as 04-gsensor) to avoid
   missing weak symbol issues; only ADC1 + UART7 are actually used at runtime.
 - DMA buffer is `volatile uint32_t g_adc_buf[9]` in main.c; snapshot taken by
   direct array read in the 5s loop (32-bit reads are atomic on Cortex-M33).
