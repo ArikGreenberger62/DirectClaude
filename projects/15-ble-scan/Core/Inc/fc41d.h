@@ -24,7 +24,8 @@ typedef enum {
 typedef struct {
     char     addr[18];    /* "AA:BB:CC:DD:EE:FF\0" */
     uint8_t  addr_type;   /* 0=public, 1=random */
-    int16_t  rssi_dbm;    /* signal strength in dBm (negative) */
+    uint8_t  rssi_valid;  /* 1 if rssi_dbm was present in URC, 0 if field was empty */
+    int16_t  rssi_dbm;    /* signal strength in dBm; only meaningful when rssi_valid=1 */
     char     name[33];    /* Local Name from adv data, "" if absent */
 } BLE_Device_t;
 
@@ -45,6 +46,12 @@ FC41D_Result_t FC41D_Detect(void);
  * Returns number of unique devices found. */
 uint8_t FC41D_BLE_Scan(BLE_Device_t *devices, uint8_t max_devices,
                         uint32_t duration_ms);
+
+/* Connect to a BLE device and read its Device Name characteristic (GATT handle 3).
+ * Writes into name_out[0..name_max-1]; disconnects before returning.
+ * Call after FC41D_BLE_Scan() with scanning stopped (AT+QBLESCAN=0).
+ * Returns 1 if a non-empty name was obtained, 0 on failure. */
+int FC41D_BLE_GetName(const BLE_Device_t *dev, char *name_out, uint8_t name_max);
 
 /* Call from HAL_UART_RxCpltCallback when huart->Instance == UART9. */
 void FC41D_RxByte(void);

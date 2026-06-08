@@ -48,7 +48,10 @@
       "Bash(python run_claude.py --show-prompt \"the SMS receive is broken in 09-sms-modem, fix it\")",
       "Bash(python run_claude.py --debug-skills \"fix sms in 09-sms-modem\")",
       "Bash(python run_claude.py -n 3 --debug-skills \"fix sms in 09-sms-modem\")",
-      "Bash(python run_claude.py --show-prompt \"fix sms in 09-sms-modem\")"
+      "Bash(python run_claude.py --show-prompt \"fix sms in 09-sms-modem\")",
+      "Bash(pip show *)",
+      "Bash(python TFL_PCAN.py --help)",
+      "Bash(python -c \"import py_compile; py_compile.compile\\('TFL_PCAN.py', doraise=True\\); print\\('OK'\\)\")"
     ]
   }
 }

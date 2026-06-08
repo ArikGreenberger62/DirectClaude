@@ -1,14 +1,20 @@
-/* main.c — 15-ble-scan
+/* main.c — 16-ble-beacon
  *
- * Scans for BLE devices using the Quectel FC41D module and prints results
- * on the trace UART.
+ * BLE Beacon using Quectel FC41D module:
+ *   - Device name: "CCoreAIBLE"
+ *   - Advertising payload: flags + manufacturer specific "Hello from CCoreAI"
  *
- * Startup sequence:
- *   1. Power on FC41D (WIFI_BLE_PWR_EN PD5, WIFI_BLE_RESETN PD6), wait 3 s boot
- *   2. Poll AT until module responds (up to 10 s), read firmware version
- *   3. AT+QBLEINIT=1 (central), AT+QBLESCAN=1, collect URCs for 5 s
- *   4. Print scan summary on UART7 (trace)
- *   5. Main loop: blink LED + refresh watchdog
+ * Advertising data (25 bytes, fits within 31-byte BLE limit):
+ *   02 01 06            — Flags: LE General Discoverable, no BR/EDR
+ *   15 FF FF FF         — Manufacturer Specific, company 0xFFFF (not assigned),
+ *                         length = 21 (1 type + 2 company + 18 message bytes)
+ *   48 65 6C 6C 6F 20   — "Hello "
+ *   66 72 6F 6D 20      — "from "
+ *   43 43 6F 72 65 41 49 — "CCoreAI"
+ *
+ * The device name "CCoreAIBLE" is set via AT+QBLENAME and appears in:
+ *   - GATT Device Name characteristic (for connected clients)
+ *   - BLE scan response packets (for active scanners)
  *
  * Trace output: UART7 (PE7=RX, PE8=TX, 115200 8N1) → COM7
  * FC41D AT port: UART9 (PD14=RX, PD15=TX, 115200 8N1)
@@ -30,15 +36,21 @@
 #define LED_G_PIN    GPIO_PIN_9
 #define LED_RG_PORT  GPIOC
 
-/* BLE scan duration — 30 s gives enough window for slow-advertising devices
- * such as Samsung SmartTag (idle advertising interval can be 5–30 s). */
-#define BLE_SCAN_DURATION_MS  30000U
+/* BLE beacon configuration */
+#define BEACON_NAME     "CCoreAIBLE"
+
+/* Advertising payload (hex string, 25 bytes):
+ *   02 01 06  = Flags: LE General Discoverable, BR/EDR Not Supported
+ *   15 FF FF FF = Manufacturer Specific (len=21, company=0xFFFF)
+ *   48 65 6C 6C 6F 20 66 72 6F 6D 20 43 43 6F 72 65 41 49 = "Hello from CCoreAI"
+ */
+#define BEACON_ADV_HEX \
+    "02010615FFFFFF48656C6C6F2066726F6D2043436F72654149"
 
 /* ── Private prototypes ──────────────────────────────────────────────────── */
 static void SystemClock_Config(void);
 static void LED_Init(void);
 static void Trace(const char *msg);
-static void print_scan_results(const BLE_Device_t *devices, uint8_t count);
 
 /* ── main ────────────────────────────────────────────────────────────────── */
 int main(void)
@@ -54,16 +66,18 @@ int main(void)
     MX_UART9_Init();   /* FC41D AT command port */
     MX_IWDG_Init();
 
-    Trace("\r\n[BLE-SCAN] 15-ble-scan starting\r\n");
-    Trace("[BLE-SCAN] UART7=trace, UART9=FC41D, 115200 8N1\r\n");
+    Trace("\r\n[BEACON] 16-ble-beacon starting\r\n");
+    Trace("[BEACON] UART7=trace, UART9=FC41D, 115200 8N1\r\n");
+    Trace("[BEACON] name=\"" BEACON_NAME "\"\r\n");
+    Trace("[BEACON] message=\"Hello from CCoreAI\"\r\n");
 
     /* Step 1: power on FC41D and wait for boot */
     FC41D_Init();
 
-    /* Step 2: detect module */
+    /* Step 2: detect module and read firmware version */
     FC41D_Result_t det = FC41D_Detect();
     if (det != FC41D_RESULT_OK) {
-        Trace("[BLE-SCAN] FC41D: FAIL - not detected\r\n");
+        Trace("[BEACON] FC41D: FAIL - not detected\r\n");
         HAL_GPIO_WritePin(LED_RG_PORT, LED_R_PIN, GPIO_PIN_SET);
         HAL_GPIO_WritePin(LED_RG_PORT, LED_G_PIN, GPIO_PIN_RESET);
         while (1) {
@@ -71,100 +85,42 @@ int main(void)
             HAL_Delay(500U);
         }
     }
-    Trace("[BLE-SCAN] FC41D: PASS\r\n");
+    Trace("[BEACON] FC41D: PASS\r\n");
 
-    /* Step 3: run BLE scan */
-    static BLE_Device_t devices[BLE_SCAN_MAX_DEVICES];
-    uint8_t n = FC41D_BLE_Scan(devices, BLE_SCAN_MAX_DEVICES,
-                                BLE_SCAN_DURATION_MS);
-
-    /* Step 4: resolve device names via GATT for public-address devices (type=0)
-     * that don't already have a name from advertising data.
-     * Type=1 (random/RPA — phones in privacy mode) reject GATT connections. */
-    if (n > 0U) {
-        Trace("[BLE-SCAN] resolving device names via GATT (public addr only)...\r\n");
-        for (uint8_t i = 0U; i < n; i++) {
-            if (devices[i].addr_type == 0U && devices[i].name[0] == '\0') {
-                FC41D_BLE_GetName(&devices[i],
-                                  devices[i].name,
-                                  (uint8_t)sizeof(devices[i].name));
-            }
+    /* Step 3: start BLE advertising beacon */
+    FC41D_Result_t beacon = FC41D_BLE_BeaconStart(BEACON_NAME, BEACON_ADV_HEX);
+    if (beacon != FC41D_RESULT_OK) {
+        Trace("[BEACON] BLE beacon: FAIL\r\n");
+        /* Blink red fast to indicate BLE init failure */
+        while (1) {
+            HAL_GPIO_TogglePin(LED_RG_PORT, LED_R_PIN);
+            HAL_GPIO_WritePin(LED_RG_PORT, LED_G_PIN, GPIO_PIN_RESET);
             HAL_IWDG_Refresh(&hiwdg);
+            HAL_Delay(200U);
         }
     }
+    Trace("[BEACON] BLE beacon: PASS\r\n");
+    Trace("[BEACON] advertising — scan with a BLE scanner app to see CCoreAIBLE\r\n");
 
-    /* Step 5: print scan summary */
-    print_scan_results(devices, n);
-
-    /* Step 6: main loop — blink green, refresh watchdog */
+    /* Step 4: main loop — blink green slowly, refresh watchdog, status trace */
     uint32_t last_trace = HAL_GetTick();
 
     while (1)
     {
         uint32_t t = HAL_GetTick();
 
+        /* 1 Hz blink: green on for 500 ms, off for 500 ms */
         HAL_GPIO_WritePin(LED_RG_PORT, LED_G_PIN,
             (t % 1000U < 500U) ? GPIO_PIN_SET : GPIO_PIN_RESET);
         HAL_GPIO_WritePin(LED_RG_PORT, LED_R_PIN, GPIO_PIN_RESET);
 
-        if ((t - last_trace) >= 5000U) {
+        /* Status trace every 10 s */
+        if ((t - last_trace) >= 10000U) {
             last_trace = t;
-            char buf[64];
-            int  n_written = snprintf(buf, sizeof(buf),
-                                      "[STATUS] scan done, %u device%s found\r\n",
-                                      (unsigned)n, n == 1U ? "" : "s");
-            if (n_written > 0) { Trace(buf); }
+            Trace("[STATUS] beacon running — advertising CCoreAIBLE / Hello from CCoreAI\r\n");
         }
 
         HAL_IWDG_Refresh(&hiwdg);
-    }
-}
-
-/* ── print_scan_results ──────────────────────────────────────────────────── */
-static void print_scan_results(const BLE_Device_t *devices, uint8_t count)
-{
-    char buf[128];
-    int  nw;
-
-    nw = snprintf(buf, sizeof(buf),
-                  "[BLE-SCAN] ---- scan complete: %u device%s ----\r\n",
-                  (unsigned)count, count == 1U ? "" : "s");
-    if (nw > 0) { Trace(buf); }
-
-    for (uint8_t i = 0U; i < count; i++) {
-        if (devices[i].name[0] != '\0') {
-            if (devices[i].rssi_valid) {
-                nw = snprintf(buf, sizeof(buf),
-                              "[BLE] #%02u %s type=%u rssi=%d dBm name=%s\r\n",
-                              (unsigned)(i + 1U), devices[i].addr,
-                              (unsigned)devices[i].addr_type,
-                              (int)devices[i].rssi_dbm, devices[i].name);
-            } else {
-                nw = snprintf(buf, sizeof(buf),
-                              "[BLE] #%02u %s type=%u rssi=N/A name=%s\r\n",
-                              (unsigned)(i + 1U), devices[i].addr,
-                              (unsigned)devices[i].addr_type,
-                              devices[i].name);
-            }
-        } else {
-            if (devices[i].rssi_valid) {
-                nw = snprintf(buf, sizeof(buf),
-                              "[BLE] #%02u %s type=%u rssi=%d dBm\r\n",
-                              (unsigned)(i + 1U), devices[i].addr,
-                              (unsigned)devices[i].addr_type,
-                              (int)devices[i].rssi_dbm);
-            } else {
-                nw = snprintf(buf, sizeof(buf),
-                              "[BLE] #%02u %s type=%u rssi=N/A\r\n",
-                              (unsigned)(i + 1U), devices[i].addr,
-                              (unsigned)devices[i].addr_type);
-            }
-        }
-        if (nw > 0) { Trace(buf); }
-    }
-
-    if (count == 0U) {
-        Trace("[BLE-SCAN] no devices found\r\n");
     }
 }
 

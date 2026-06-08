@@ -29,12 +29,14 @@
 #include <stdarg.h>
 
 /* ── Private constants ────────────────────────────────────────────────────── */
-#define FC41D_LINE_MAX        128U
-#define FC41D_POLL_INTERVAL   500U
-#define FC41D_DETECT_TIMEOUT  10000U
-#define FC41D_CMD_TIMEOUT     2000U
-#define FC41D_BOOT_WAIT_MS    3000U
-#define FC41D_SCAN_POLL_MS    200U   /* getline timeout during BLE scan loop */
+#define FC41D_LINE_MAX            128U
+#define FC41D_POLL_INTERVAL       500U
+#define FC41D_DETECT_TIMEOUT      10000U
+#define FC41D_CMD_TIMEOUT         2000U
+#define FC41D_BOOT_WAIT_MS        3000U
+#define FC41D_SCAN_POLL_MS        200U   /* getline timeout during BLE scan loop */
+#define FC41D_GATT_CONNECT_MS     8000U  /* max wait for +QBLECONN:0,0 URC */
+#define FC41D_GATT_READ_MS        5000U  /* max wait for +QBLEGATTRD URC */
 
 /* ── Module state ─────────────────────────────────────────────────────────── */
 static RingBuf_t s_rx;
@@ -192,12 +194,22 @@ static void extract_ble_name(const char *adv_hex, char *name_out,
 
 /* Parse one +QBLESCAN URC into a BLE_Device_t.
  *
- * Actual firmware (FC41DAAR03A09) format (no space after colon):
- *   +QBLESCAN:<rssi_or_empty>,<addr_type>,<addr_12hex>[,<adv_hex>]
- *   e.g. +QBLESCAN:,1,1f953971eae5
- *        +QBLESCAN:-55,0,1f953971eae5,0201060709...
+ * Two observed formats (auto-detected by field-1 length):
  *
- * addr_12hex is 12 lower-case hex chars (no colons); formatted as XX:XX:XX:XX:XX:XX.
+ *   Actual firmware FC41DAAR03A09 (RSSI first, addr NO colons):
+ *     +QBLESCAN:<rssi_or_empty>,<addr_type>,<addr_12hex>[,<adv_hex>]
+ *     e.g. +QBLESCAN:,1,1f953971eae5
+ *          +QBLESCAN:-55,0,00a050f0354b,0201...
+ *
+ *   AT manual / some devices (addr first, may have colons):
+ *     +QBLESCAN:<addr>,<addr_type>,<rssi>[,<adv_hex>]
+ *     e.g. +QBLESCAN:00:A0:50:F0:35:4B,0,-55
+ *          +QBLESCAN:00a050f0354b,0,-55
+ *
+ * Detection rule: if field1 length is 12 or 17 → addr is first (manual format);
+ * otherwise (empty or a numeric RSSI) → addr is field3 (actual format).
+ *
+ * Both 12-char no-colon and 17-char colon MAC formats are accepted.
  *
  * Returns 1 on success, 0 if the line is not a valid +QBLESCAN device line. */
 static int parse_qblescan(const char *line, BLE_Device_t *dev)
@@ -206,42 +218,69 @@ static int parse_qblescan(const char *line, BLE_Device_t *dev)
     if (strncmp(line, prefix, sizeof(prefix) - 1U) != 0) { return 0; }
     const char *p = line + sizeof(prefix) - 1U;
 
-    char rssi_s[8];
-    char addr_type_s[4];
-    char addr_raw[14];   /* 12 hex chars + NUL */
+    /* Use wide buffers — field1 may be a 17-char colon-format MAC */
+    char field1[24];
+    char field2[4];
+    char field3[24];
     char adv_hex[128];
 
-    p = parse_field(p, rssi_s,      (uint8_t)sizeof(rssi_s),      ',');
-    p = parse_field(p, addr_type_s, (uint8_t)sizeof(addr_type_s), ',');
-    p = parse_field(p, addr_raw,    (uint8_t)sizeof(addr_raw),    ',');
-    (void)parse_field(p, adv_hex,   (uint8_t)sizeof(adv_hex),     '\0');
+    p = parse_field(p, field1,  (uint8_t)sizeof(field1),  ',');
+    p = parse_field(p, field2,  (uint8_t)sizeof(field2),  ',');
+    p = parse_field(p, field3,  (uint8_t)sizeof(field3),  ',');
+    (void)parse_field(p, adv_hex, (uint8_t)sizeof(adv_hex), '\0');
 
-    /* addr_raw must be exactly 12 hex chars */
-    {
-        uint8_t i = 0U;
-        while (addr_raw[i] != '\0') { i++; }
-        if (i != 12U) { return 0; }
+    uint8_t f1_len = (uint8_t)strlen(field1);
+    uint8_t f3_len = (uint8_t)strlen(field3);
+
+    /* Select which field holds the MAC address */
+    const char *addr_raw;
+    const char *rssi_raw;
+    if (f1_len == 12U || f1_len == 17U) {
+        addr_raw = field1;   /* manual format: addr,addr_type,rssi */
+        rssi_raw = field3;
+    } else if (f3_len == 12U || f3_len == 17U) {
+        rssi_raw = field1;   /* actual firmware format: rssi,addr_type,addr */
+        addr_raw = field3;
+    } else {
+        return 0;
     }
 
-    /* Format addr as XX:XX:XX:XX:XX:XX */
-    (void)snprintf(dev->addr, sizeof(dev->addr),
-                   "%c%c:%c%c:%c%c:%c%c:%c%c:%c%c",
-                   addr_raw[0],  addr_raw[1],  addr_raw[2],  addr_raw[3],
-                   addr_raw[4],  addr_raw[5],  addr_raw[6],  addr_raw[7],
-                   addr_raw[8],  addr_raw[9],  addr_raw[10], addr_raw[11]);
+    uint8_t addr_len = (uint8_t)strlen(addr_raw);
 
-    /* addr_type: single ASCII digit */
-    dev->addr_type = (addr_type_s[0] >= '0' && addr_type_s[0] <= '9')
-                     ? (uint8_t)(addr_type_s[0] - '0') : 0U;
+    if (addr_len == 12U) {
+        /* 12 hex chars, no colons → format as XX:XX:XX:XX:XX:XX */
+        (void)snprintf(dev->addr, sizeof(dev->addr),
+                       "%c%c:%c%c:%c%c:%c%c:%c%c:%c%c",
+                       addr_raw[0],  addr_raw[1],  addr_raw[2],  addr_raw[3],
+                       addr_raw[4],  addr_raw[5],  addr_raw[6],  addr_raw[7],
+                       addr_raw[8],  addr_raw[9],  addr_raw[10], addr_raw[11]);
+    } else {
+        /* 17-char colon format: copy verbatim, normalize hex digits to upper */
+        for (uint8_t j = 0U; j < 17U; j++) {
+            char c = addr_raw[j];
+            dev->addr[j] = (c >= 'a' && c <= 'f') ? (char)(c - ('a' - 'A')) : c;
+        }
+        dev->addr[17U] = '\0';
+    }
 
-    /* rssi: optional leading '-', then decimal digits; empty → 0 */
+    /* addr_type from field2: single ASCII digit */
+    dev->addr_type = (field2[0] >= '0' && field2[0] <= '9')
+                     ? (uint8_t)(field2[0] - '0') : 0U;
+
+    /* rssi: optional leading '-', then decimal digits; empty → rssi_valid=0 */
     {
         int        val = 0;
         int        neg = 0;
-        const char *r  = rssi_s;
+        const char *r  = rssi_raw;
         if (*r == '-') { neg = 1; r++; }
-        while (*r >= '0' && *r <= '9') { val = val * 10 + (*r++ - '0'); }
-        dev->rssi_dbm = (int16_t)(neg ? -val : val);
+        if (*r >= '0' && *r <= '9') {
+            while (*r >= '0' && *r <= '9') { val = val * 10 + (*r++ - '0'); }
+            dev->rssi_dbm   = (int16_t)(neg ? -val : val);
+            dev->rssi_valid = 1U;
+        } else {
+            dev->rssi_dbm   = 0;
+            dev->rssi_valid = 0U;
+        }
     }
 
     /* device name from advertising payload (may be absent) */
@@ -393,7 +432,10 @@ uint8_t FC41D_BLE_Scan(BLE_Device_t *devices, uint8_t max_devices,
         if (strncmp(line, "+QBLESCAN:", 10U) != 0)                  { continue; }
 
         BLE_Device_t dev = {0};
-        if (!parse_qblescan(line, &dev)) { continue; }
+        if (!parse_qblescan(line, &dev)) {
+            tracef("[PARSE-FAIL] %s\r\n", line);
+            continue;
+        }
 
         /* Deduplicate by MAC address */
         uint8_t dup = 0U;
@@ -426,4 +468,139 @@ void FC41D_RxByte(void)
 {
     RingBuf_Put(&s_rx, s_rx_byte);
     fc41d_rx_arm();
+}
+
+int FC41D_BLE_GetName(const BLE_Device_t *dev, char *name_out, uint8_t name_max)
+{
+    char     cmd[64];
+    char     line[FC41D_LINE_MAX];
+    int      rc;
+    uint32_t start;
+
+    name_out[0] = '\0';
+
+    /* ── Connect ─────────────────────────────────────────────────────────── */
+    (void)snprintf(cmd, sizeof(cmd), "AT+QBLECONN=0,%u,%s",
+                   (unsigned)dev->addr_type, dev->addr);
+    tracef("[BLE-GATT] connecting %s type=%u...\r\n",
+           dev->addr, (unsigned)dev->addr_type);
+
+    RingBuf_Flush(&s_rx);
+    fc41d_tx(cmd, (uint16_t)strlen(cmd));
+    fc41d_tx("\r\n", 2U);
+
+    /* Wait for OK (command accepted by module) */
+    rc    = 0;
+    start = HAL_GetTick();
+    while ((HAL_GetTick() - start) < 3000U) {
+        if (!fc41d_getline(line, sizeof(line), 300U)) { continue; }
+        tracef("[BLE-GATT-RAW] %s\r\n", line);
+        if (strstr(line, "ERROR") != NULL) {
+            tracef("[BLE-GATT] QBLECONN ERROR — reinit BLE stack\r\n");
+            (void)fc41d_cmd("AT+QBLEINIT=0", "OK", FC41D_CMD_TIMEOUT);
+            HAL_Delay(300U);
+            (void)fc41d_cmd("AT+QBLEINIT=1", "OK", FC41D_CMD_TIMEOUT);
+            HAL_Delay(300U);
+            return 0;
+        }
+        if (strcmp(line, "OK") == 0) { rc = 1; break; }
+    }
+    if (rc == 0) {
+        tracef("[BLE-GATT] QBLECONN: no OK (timeout)\r\n");
+        return 0;
+    }
+
+    /* Wait for +QBLECONN:0,<status> URC */
+    rc    = 0;
+    start = HAL_GetTick();
+    while ((HAL_GetTick() - start) < FC41D_GATT_CONNECT_MS) {
+        HAL_IWDG_Refresh(&hiwdg);
+        if (!fc41d_getline(line, sizeof(line), 500U)) { continue; }
+        tracef("[BLE-GATT-RAW] %s\r\n", line);
+        if (strncmp(line, "+QBLECONN:0,", 12U) == 0) {
+            if (line[12] == '0') {
+                rc = 1;
+            } else {
+                tracef("[BLE-GATT] connect failed: %s\r\n", line);
+            }
+            break;
+        }
+        if (strstr(line, "ERROR") != NULL) { break; }
+    }
+    if (rc == 0) {
+        tracef("[BLE-GATT] no connect URC — cancelling pending connection\r\n");
+        (void)fc41d_cmd("AT+QBLEDISCONN=0", "OK", 2000U);
+        HAL_Delay(500U);
+        return 0;
+    }
+    tracef("[BLE-GATT] connected to %s\r\n", dev->addr);
+
+    /* ── Read Device Name characteristic (Generic Access, handle 0x0003) ── */
+    trace("[BLE-GATT] AT+QBLEGATTCRD=0,3,0 (Device Name)...\r\n");
+    RingBuf_Flush(&s_rx);
+    fc41d_tx("AT+QBLEGATTCRD=0,3,0\r\n", 22U);
+
+    start = HAL_GetTick();
+    while ((HAL_GetTick() - start) < FC41D_GATT_READ_MS) {
+        HAL_IWDG_Refresh(&hiwdg);
+        if (!fc41d_getline(line, sizeof(line), 500U)) { continue; }
+        tracef("[BLE-GATT-RAW] %s\r\n", line);
+
+        /* Accept both +QBLEGATTRD and +QBLEGATTCRD as URC prefixes */
+        int matched = (strncmp(line, "+QBLEGATTRD:", 12U) == 0)
+                   || (strncmp(line, "+QBLEGATTCRD:", 13U) == 0);
+        if (matched != 0) {
+            /* Find the last comma-separated field — that is the data payload */
+            const char *last = line + strlen(line);
+            while (last > line && *(last - 1U) != ',') { last--; }
+
+            uint8_t dlen = (uint8_t)strlen(last);
+            if (dlen > 64U) { dlen = 64U; }   /* sanity cap */
+
+            /* Determine if data is hex-encoded (even length, all hex chars) */
+            uint8_t all_hex = 1U;
+            for (uint8_t j = 0U; j < dlen; j++) {
+                char c = last[j];
+                if (!((c >= '0' && c <= '9') ||
+                      (c >= 'a' && c <= 'f') ||
+                      (c >= 'A' && c <= 'F'))) {
+                    all_hex = 0U;
+                    break;
+                }
+            }
+
+            if (all_hex != 0U && (dlen & 1U) == 0U && dlen > 0U) {
+                /* Hex-encoded: decode to ASCII */
+                uint8_t bytes[32];
+                uint8_t blen = hex_to_bytes(last, bytes, (uint8_t)sizeof(bytes));
+                if (blen >= name_max) { blen = (uint8_t)(name_max - 1U); }
+                for (uint8_t j = 0U; j < blen; j++) {
+                    name_out[j] = (char)bytes[j];
+                }
+                name_out[blen] = '\0';
+            } else {
+                /* Raw ASCII */
+                uint8_t cplen = (dlen < (uint8_t)(name_max - 1U))
+                                ? dlen : (uint8_t)(name_max - 1U);
+                for (uint8_t j = 0U; j < cplen; j++) { name_out[j] = last[j]; }
+                name_out[cplen] = '\0';
+            }
+            tracef("[BLE-GATT] name: \"%s\"\r\n", name_out);
+            break;
+        }
+
+        /* Stop waiting on error, spontaneous disconnect, or final OK */
+        if (strstr(line, "ERROR") != NULL
+            || strncmp(line, "+QBLEDISCONN:0", 14U) == 0
+            || strcmp(line, "OK") == 0) {
+            break;
+        }
+    }
+
+    /* ── Disconnect (always, even on read failure) ───────────────────────── */
+    (void)fc41d_cmd("AT+QBLEDISCONN=0", "OK", 3000U);
+    HAL_Delay(300U);   /* brief gap before next connection attempt */
+    tracef("[BLE-GATT] disconnected from %s\r\n", dev->addr);
+
+    return (name_out[0] != '\0') ? 1 : 0;
 }
